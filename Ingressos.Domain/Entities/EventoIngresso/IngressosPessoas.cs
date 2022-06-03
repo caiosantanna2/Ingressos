@@ -1,4 +1,5 @@
 ﻿
+using Ingressos.Domain.Entities.Cliente;
 using Ingressos.Domain.Entities.EventoIngresso;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace Ingressos.Domain.Entities.EventoIngresso
 {
-    public class IngressosEventos
+    public class IngressosPessoas
     {
         public Guid Id { get; set; }
-        public float Valor { get; set; }
-        public int Quantidade { get; set; } 
-        public Evento Evento { get; set; }
+        public IngressosEventos Ingresso { get; set; }    
+        public Pessoa Pessoa { get; set; }
     }
 }
