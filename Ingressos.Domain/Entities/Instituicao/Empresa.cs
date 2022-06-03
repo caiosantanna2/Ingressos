@@ -1,4 +1,4 @@
-﻿using Ingressos.Domain.Entities.Cliente;
+﻿
 using Ingressos.Domain.Entities.Enderecos;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ingressos.Domain.Entities.Empresa
+namespace Ingressos.Domain.Entities.Instituicao
 {
     public class Empresa
     {
@@ -14,6 +14,7 @@ namespace Ingressos.Domain.Entities.Empresa
         public string Nome { get; set; }
         public string CNPJ { get; set; }
         public Endereco Endereco { get; set; }  
+        public TipoInstituicao TipoEmpresas { get; set; }    
 
     }
 }

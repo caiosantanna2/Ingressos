@@ -1,5 +1,6 @@
 ﻿
-using Ingressos.Domain.Entities.Empresa;
+
+using Ingressos.Domain.Entities.Instituicao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,10 @@ namespace Ingressos.Domain.Interfaces.Services
 {
     public interface IEmpresaService
     {
-        Task<List<Empresa>> ConsultarEmpresa(Empresa empresa);
-        Task<Empresa> CadastrarEmpresa(Empresa empresa);
-        Task<Empresa> AlterarEmpresa(Empresa empresa);
-        Task<Guid> ExcluirEmpresa(Guid IdEmpresa);
+        List<Empresa> ConsultarEmpresas();
+        Empresa ConsultarPorId(Guid IdEmpresa);
+        Empresa CadastrarEmpresa(Empresa empresa);
+        Empresa AlterarEmpresa(Empresa empresa);
+        string ExcluirEmpresa(Guid IdEmpresa);
     }
 }

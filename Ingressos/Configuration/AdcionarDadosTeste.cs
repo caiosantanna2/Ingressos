@@ -1,7 +1,7 @@
 ﻿using Ingressos.Data.Context;
 using Ingressos.Domain.Entities.Cliente;
-using Ingressos.Domain.Entities.Empresa;
 using Ingressos.Domain.Entities.Enderecos;
+using Ingressos.Domain.Entities.Instituicao;
 using System;
 
 namespace Ingressos.API.Configuration
@@ -10,14 +10,14 @@ namespace Ingressos.API.Configuration
     {
         public static void AdicionarDadosTeste(IngresssosContext context)
         {
-            var testeUsuario1 = new Pessoa
+            var testePessoa = new Pessoa
             {
                 Id = new Guid(),
                 Nome = "Caio",
                 Email = "caio@yahoo.com",
                 Cpf = "01274485520",
                 DataNascimento = new DateTime(1988, 01, 01),
-                Endereco =  new Endereco
+                Endereco = new Endereco
                 {
                     Id = new Guid(),
                     Bairro = "Aguas Claras",
@@ -30,9 +30,9 @@ namespace Ingressos.API.Configuration
                 }
             };
 
-            context.Pessoas.Add(testeUsuario1);
+            context.Pessoas.Add(testePessoa);
            
-            var testePost1 = new Empresa
+            var testeEmpres = new Empresa
             {
                 Id = new Guid(),
                 
@@ -51,7 +51,7 @@ namespace Ingressos.API.Configuration
                 }
             };
 
-            context.Empresa.Add(testePost1);
+            context.Empresa.Add(testeEmpres);
             context.SaveChanges();
         }
     }

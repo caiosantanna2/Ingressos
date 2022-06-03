@@ -7,51 +7,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ingressos.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
-namespace Ingressos.Data.Repository.Pessoa
+namespace Ingressos.Data.Repository.Cliente
 {
-    public class EmpresaRepository : IPessoaRepository
+    public class PessoaRepository : IPessoaRepository
     {
 
         private readonly IngresssosContext _context;
 
-        public EmpresaRepository(IngresssosContext context)
+        public PessoaRepository(IngresssosContext context)
         {
-
             _context = context;
         }
-        public Task<Domain.Entities.Cliente.Pessoa> AlterarPessoa(Domain.Entities.Cliente.Pessoa pessoa)
+        public Pessoa AlterarPessoa(Pessoa pessoa)
         {
-            throw new NotImplementedException();
+            _context.Entry(pessoa).State = EntityState.Modified;
+            _context.Update(pessoa);
+            _context.SaveChanges();
+
+            return pessoa;
         }
 
-        public Task<Domain.Entities.Cliente.Pessoa> CadastrarPessoa(Domain.Entities.Cliente.Pessoa pessoa)
+        public Pessoa CadastrarPessoa(Pessoa pessoa)
         {
-            throw new NotImplementedException();
+            _context.Add(pessoa);
+            _context.SaveChanges();
+            return pessoa;
         }
 
-        public List<Domain.Entities.Cliente.Pessoa> ConsultarPessoa(Domain.Entities.Cliente.Pessoa pessoa)
+        public List<Pessoa> ConsultarPessoas()
         {
-
-            var response = _context.Pessoas.ToList();
-            //public async Task<TbLogMni> ObterLogPorId(int id)
-            //{
-
-            //    var logMni = await _context.TbLogMni
-            //       .FirstOrDefaultAsync(x => x.CodLogMni == id);
-
-            //    return logMni;
-
-
-
-            //}
+            var response = _context.Pessoas.Include(x => x.Endereco).ToList();
             return response;
 
         }
 
-        public Task<Guid> ExcluirPessoa(Guid IdPessoa)
+        public Pessoa ConsultarPorId(Guid id)
         {
-            throw new NotImplementedException();
+            var response = _context.Pessoas.Include(x => x.Endereco).FirstOrDefault(x => x.Id == id);
+
+            return response;
         }
+
+        public string ExcluirPessoa(Guid IdPessoa)
+        {
+            
+            var pessoa = ConsultarPorId(IdPessoa);
+            if(pessoa != null)
+            {
+                _context.Pessoas.Remove(pessoa);
+                _context.SaveChanges();
+                return "Pessoa excluída com sucesso!";
+            }
+            else
+            {
+                 throw new Exception("Id informado não encotrado!");
+            }
+            
+        }
+
     }
 }

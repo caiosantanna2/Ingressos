@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -10,6 +12,8 @@ namespace Ingressos.Domain.Entities.Cliente
 {
     public class Pessoa
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid Id { get; set; }
         public string Nome { get; set; }
        
@@ -19,7 +23,6 @@ namespace Ingressos.Domain.Entities.Cliente
         public string Rg { get; set; }
         public string Cpf { get; set; }
         public string Telefone { get; set; }
-        public Guid EnderecoId { get; set; }
         public Endereco Endereco { get; set; }
     }
 }

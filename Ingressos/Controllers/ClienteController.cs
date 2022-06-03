@@ -16,17 +16,28 @@ namespace Ingressos.Controllers
 
         [HttpGet()]
         [ProducesResponseType(typeof(List<Pessoa>), 200)]
-        [Route("/Pessoa/Consultar/")]
-        public IActionResult ConsultarPessoa(Pessoa pessoa)
+        [Route("/Pessoa/Consultar/Todas")]
+        public IActionResult ConsultarPessoa()
         {
-            var response = _pessoaService.ConsltarPessoa(pessoa);
+            var response = _pessoaService.ConsultarPessoas();
+           
+            return Ok(response);
+        }
+
+        [HttpGet()]
+        [ProducesResponseType(typeof(List<Pessoa>), 200)]
+        [Route("/Pessoa/Consultar/{idPessoa}")]
+        public IActionResult ConsultarPessoa(Guid idPessoa)
+        {
+            var response = _pessoaService.ConsultarPorId(idPessoa);
+
             return Ok(response);
         }
 
         [HttpPost()]
         [ProducesResponseType(typeof(Pessoa), 200)]
         [Route("/Pessoa/Cadastrar/")]
-        public IActionResult CadastrarPessoa(Pessoa pessoa)
+        public IActionResult CadastrarPessoa([FromBody] Pessoa pessoa)
         {
             var response = _pessoaService.CadastrarPessoa(pessoa);
             return Ok(response);
@@ -35,7 +46,7 @@ namespace Ingressos.Controllers
         [HttpPost()]
         [ProducesResponseType(typeof(Pessoa), 200)]
         [Route("/Pessoa/Editar/{idPessoa}")]
-        public IActionResult EditarPessoa(Pessoa pessoa)
+        public IActionResult EditarPessoa([FromBody] Pessoa pessoa)
         {
             var response = _pessoaService.AlterarPessoa(pessoa);
             return Ok(response);
@@ -49,5 +60,6 @@ namespace Ingressos.Controllers
             var response = _pessoaService.ExcluirPessoa(idPessoa);
             return Ok(response);
         }
+
     }
 }

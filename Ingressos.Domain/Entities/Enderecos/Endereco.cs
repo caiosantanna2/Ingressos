@@ -17,5 +17,17 @@ namespace Ingressos.Domain.Entities.Enderecos
         public string Estado { get; set; }
         public string Municipio { get; set; }
         public Endereco() { }
+
+        //public Endereco(int numeroCep, string bairro, string logradouro, string numero, string complemento, string estado, string municipio)
+        //{
+        //    Id = Guid.NewGuid();
+        //    NumeroCep = numeroCep;
+        //    Bairro = bairro?.Trim();
+        //    Logradouro = logradouro?.Trim();
+        //    Numero = numero?.Trim();
+        //    Complemento = complemento?.Trim();
+        //    Estado = estado;
+        //    Municipio = municipio;
+        //}
     }
 }

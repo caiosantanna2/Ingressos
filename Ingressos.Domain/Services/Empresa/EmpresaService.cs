@@ -4,36 +4,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ingressos.Domain.Entities.Empresa;
 
+using Ingressos.Domain.Entities.Instituicao;
 
-namespace Ingressos.Domain.Services.Empresa
+namespace Ingressos.Domain.Services.Instituicao
 {
     public class EmpresaService : IEmpresaService
     {
         private readonly IEmpresaRepository _empresaRepository;
+        
         public EmpresaService(IEmpresaRepository empresaRepository)
         {
             _empresaRepository = empresaRepository;       
         }
 
-        public Task<Domain.Entities.Empresa.Empresa> AlterarEmpresa(Domain.Entities.Empresa.Empresa empresa)
+        public Empresa AlterarEmpresa(Empresa empresa)
         {
             return _empresaRepository.AlterarEmpresa(empresa);
         }
 
-        public Task<Domain.Entities.Empresa.Empresa> CadastrarEmpresa(Domain.Entities.Empresa.Empresa empresa)
+        public Empresa CadastrarEmpresa(Empresa empresa)
         { 
             return _empresaRepository.CadastrarEmpresa(empresa);
         }
-
        
-        public Task<List<Domain.Entities.Empresa.Empresa>> ConsultarEmpresa(Domain.Entities.Empresa.Empresa empresa)
+        public List<Empresa> ConsultarEmpresas()
         {
-            return _empresaRepository.ConsultarEmpresa(empresa);
+            return _empresaRepository.ConsultarEmpresas();
         }
 
-        public Task<Guid> ExcluirEmpresa(Guid IdEmpresa)
+        public Empresa ConsultarPorId(Guid IdEmpresa)
+        {
+            return _empresaRepository.ConsultarPorId(IdEmpresa);
+        }
+
+        public string ExcluirEmpresa(Guid IdEmpresa)
         {
             return _empresaRepository.ExcluirEmpresa(IdEmpresa);
         }

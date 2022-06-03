@@ -9,9 +9,10 @@ namespace Ingressos.Domain.Interfaces.Services
 {
     public interface IPessoaRepository
     {
-        List<Pessoa> ConsultarPessoa(Pessoa pessoa);
-        Task<Pessoa> CadastrarPessoa(Pessoa pessoa);
-        Task<Pessoa> AlterarPessoa(Pessoa pessoa);
-        Task<Guid> ExcluirPessoa(Guid IdPessoa);
+        List<Pessoa> ConsultarPessoas();
+        Pessoa ConsultarPorId(Guid pessoa);
+        Pessoa CadastrarPessoa(Pessoa pessoa);
+        Pessoa AlterarPessoa(Pessoa pessoa);
+        string ExcluirPessoa(Guid IdPessoa);
     }
 }

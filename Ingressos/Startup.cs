@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +32,8 @@ namespace Ingressos
 
             services.AddControllers();
             services.RegisterInjections();
-            services.RegisterDataBase();
+            services.AddDbContext<IngresssosContext>(options => options.UseInMemoryDatabase(databaseName: "Ingressos"));
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ingressos", Version = "v1" });
@@ -39,7 +41,7 @@ namespace Ingressos
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IngresssosContext context )
         {
             if (env.IsDevelopment())
             {
@@ -48,18 +50,19 @@ namespace Ingressos
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ingressos v1"));
             }
 
-            var context = app.ApplicationServices.GetService<IngresssosContext>();
+        
             AdcionarDados.AdicionarDadosTeste(context);
             app.UseHttpsRedirection();
-
+           
             app.UseRouting();
 
             app.UseAuthorization();
-
+           
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }

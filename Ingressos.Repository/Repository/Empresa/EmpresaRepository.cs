@@ -1,34 +1,68 @@
 ﻿using Ingressos.Domain.Interfaces.Services;
-using Ingressos.Domain.Entities.Cliente;
 
+using Ingressos.Domain.Entities.Instituicao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ingressos.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
-namespace Ingressos.Data.Repository.Empresa
+namespace Ingressos.Data.Repository.Instituicao
 {
     public class EmpresaRepository : IEmpresaRepository
     {
-        public Task<Domain.Entities.Empresa.Empresa> AlterarEmpresa(Domain.Entities.Empresa.Empresa pessoa)
+        private readonly IngresssosContext _context;
+
+        public EmpresaRepository(IngresssosContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public Empresa AlterarEmpresa(Empresa empresa)
+        {
+            _context.Entry(empresa).State = EntityState.Modified;
+            _context.Update(empresa);
+            _context.SaveChanges();
+
+            return empresa;
         }
 
-        public Task<Domain.Entities.Empresa.Empresa> CadastrarEmpresa(Domain.Entities.Empresa.Empresa pessoa)
+        public Empresa CadastrarEmpresa(Empresa empresa)
         {
-            throw new NotImplementedException();
+            _context.Add(empresa);
+            _context.SaveChanges();
+            return empresa;
         }
 
-        public Task<List<Domain.Entities.Empresa.Empresa>> ConsultarEmpresa(Domain.Entities.Empresa.Empresa pessoa)
+        public List<Empresa> ConsultarEmpresas()
         {
-            throw new NotImplementedException();
+            var response = _context.Empresa.Include(x => x.Endereco).ToList();
+            return response;
+
         }
 
-        public Task<Guid> ExcluirEmpresa(Guid IdPessoa)
+        public Empresa ConsultarPorId(Guid IdEmpresa)
         {
-            throw new NotImplementedException();
+            var response = _context.Empresa.Include(x => x.Endereco).FirstOrDefault(x => x.Id == IdEmpresa);
+
+            return response;
+
+        }
+
+        public string ExcluirEmpresa(Guid IdEmpresa)
+        {
+            var empresa = ConsultarPorId(IdEmpresa);
+            if (empresa != null)
+            {
+                _context.Empresa.Remove(empresa);
+                _context.SaveChanges();
+                return "Empresa excluída com sucesso!";
+            }
+            else
+            {
+                throw new Exception("Id informado não encotrado!");
+            }
         }
     }
 }

@@ -6,31 +6,39 @@ using System.Text;
 using System.Threading.Tasks;
 using Ingressos.Domain.Entities.Cliente;
 
-namespace Ingressos.Domain.Services.Pessoa
+namespace Ingressos.Domain.Services.Cliente
 {
-    public class EmpresaService : IPessoaService
+    public class PessoaService : IPessoaService
     {
         private readonly IPessoaRepository _pessoaRepository;
-        public EmpresaService(IPessoaRepository  pessoaRepository)
+       
+        public PessoaService(IPessoaRepository  pessoaRepository)
         {
             _pessoaRepository = pessoaRepository;       
         }
-        public Task<Entities.Cliente.Pessoa> AlterarPessoa(Entities.Cliente.Pessoa pessoa)
+
+        public Pessoa AlterarPessoa(Pessoa pessoa)
         {
             return _pessoaRepository.AlterarPessoa(pessoa);
         }
 
-        public Task<Entities.Cliente.Pessoa> CadastrarPessoa(Entities.Cliente.Pessoa pessoa)
+        public Pessoa CadastrarPessoa(Pessoa pessoa)
         {
             return _pessoaRepository.CadastrarPessoa(pessoa);
         }
 
-        public List<Entities.Cliente.Pessoa> ConsltarPessoa(Entities.Cliente.Pessoa pessoa)
+        public List<Pessoa> ConsultarPessoas()
         {
-            return _pessoaRepository.ConsultarPessoa(pessoa);
+            return _pessoaRepository.ConsultarPessoas();
         }
 
-        public Task<Guid> ExcluirPessoa(Guid IdPessoa)
+        public Pessoa ConsultarPorId(Guid pessoa)
+        {
+            return _pessoaRepository.ConsultarPorId(pessoa);
+
+        }
+
+        public string ExcluirPessoa(Guid IdPessoa)
         {
             return _pessoaRepository.ExcluirPessoa(IdPessoa);
         }

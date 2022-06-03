@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using Ingressos.Domain.Entities.Cliente;
-using Ingressos.Domain.Entities.Empresa;
+
+using Ingressos.Domain.Entities.Enderecos;
+using Ingressos.Domain.Entities.Instituicao;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Ingressos.Data.Context
 {
@@ -16,5 +15,8 @@ namespace Ingressos.Data.Context
         { }
         public DbSet<Pessoa> Pessoas { get; set; }
         public DbSet<Empresa> Empresa { get; set; }
+
+       
+        
     }
 }

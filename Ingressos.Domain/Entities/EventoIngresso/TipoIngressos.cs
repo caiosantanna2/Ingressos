@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ingressos.Domain.Entities.Evento
+namespace Ingressos.Domain.Entities.EventoIngresso
 {
-    public class TipoEvento
+    public class TipoIngressos
     {
         public Guid Id { get; set; }
-        
-        public TipoEvento() { }
+        public string Descricao { get; set; }
+
     }
 }

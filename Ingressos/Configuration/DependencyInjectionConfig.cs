@@ -1,9 +1,13 @@
 ﻿
 
 
-using Ingressos.Data.Repository.Pessoa;
+
+using Ingressos.Data.Repository.Cliente;
+using Ingressos.Data.Repository.Instituicao;
 using Ingressos.Domain.Interfaces.Services;
-using Ingressos.Domain.Services.Pessoa;
+using Ingressos.Domain.Services.Cliente;
+using Ingressos.Domain.Services.Instituicao;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ingressos.API.Configuration
@@ -12,8 +16,11 @@ namespace Ingressos.API.Configuration
     {
         public static void RegisterInjections(this IServiceCollection services)
         {
-            services.AddScoped<IPessoaService, EmpresaService>();
-            services.AddScoped<IPessoaRepository, EmpresaRepository>();
+            services.AddScoped<IPessoaService, PessoaService>();
+            services.AddScoped<IPessoaRepository, PessoaRepository>();
+            services.AddScoped<IEmpresaService, EmpresaService>();
+            services.AddScoped<IEmpresaRepository, EmpresaRepository>();
+
 
         }
     }

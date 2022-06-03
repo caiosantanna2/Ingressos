@@ -1,3 +1,5 @@
+using Ingressos.API.Configuration;
+using Ingressos.Data.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,7 +15,9 @@ namespace Ingressos
     {
         public static void Main(string[] args)
         {
+          
             CreateHostBuilder(args).Build().Run();
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
