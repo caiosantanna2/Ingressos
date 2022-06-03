@@ -9,7 +9,7 @@ namespace Ingressos.Domain.Interfaces.Services
 {
     public interface IPessoaService
     {
-        Task<Pessoa> ConsltarPessoa(Pessoa pessoa);
+        Task<List<Pessoa>> ConsltarPessoa(Pessoa pessoa);
         Task<Pessoa> CadastrarPessoa(Pessoa pessoa);
         Task<Pessoa> AlterarPessoa(Pessoa pessoa);
         Task<Guid> ExcluirPessoa(Guid IdPessoa);

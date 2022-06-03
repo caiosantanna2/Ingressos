@@ -8,10 +8,10 @@ using Ingressos.Domain.Entities.Cliente;
 
 namespace Ingressos.Domain.Services.Pessoa
 {
-    public class PessoaService : IPessoaService
+    public class EmpresaService : IPessoaService
     {
         private readonly IPessoaRepository _pessoaRepository;
-        public PessoaService(IPessoaRepository  pessoaRepository)
+        public EmpresaService(IPessoaRepository  pessoaRepository)
         {
             _pessoaRepository = pessoaRepository;       
         }
@@ -25,9 +25,9 @@ namespace Ingressos.Domain.Services.Pessoa
             return _pessoaRepository.CadastrarPessoa(pessoa);
         }
 
-        public Task<Entities.Cliente.Pessoa> ConsltarPessoa(Entities.Cliente.Pessoa pessoa)
+        public Task<List<Entities.Cliente.Pessoa>> ConsltarPessoa(Entities.Cliente.Pessoa pessoa)
         {
-            return _pessoaRepository.ConsltarPessoa(pessoa);
+            return _pessoaRepository.ConsultarPessoa(pessoa);
         }
 
         public Task<Guid> ExcluirPessoa(Guid IdPessoa)

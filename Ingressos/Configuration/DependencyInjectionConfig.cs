@@ -12,8 +12,8 @@ namespace Ingressos.API.Configuration
     {
         public static void RegisterInjections(this IServiceCollection services)
         {
-            services.AddScoped<IPessoaService, PessoaService>();
-            services.AddScoped<IPessoaRepository, PessoaRepository>();
+            services.AddScoped<IPessoaService, EmpresaService>();
+            services.AddScoped<IPessoaRepository, EmpresaRepository>();
 
         }
     }
