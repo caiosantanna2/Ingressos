@@ -1,37 +1,52 @@
-﻿using Ingressos.Domain.Cliente;
+﻿using Ingressos.Domain.Entities.Cliente;
+using Ingressos.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Ingressos.Controllers
 {
     public class ClienteController : Controller
     {
+        private readonly IPessoaService _pessoaService;
+        public ClienteController(IPessoaService pessoaService)
+        {
+            _pessoaService = pessoaService;
+        }
+
         [HttpGet()]
         [ProducesResponseType(typeof(Pessoa), 200)]
         [Route("/pessoa/consultar/{idPessoa}")]
-        public IActionResult consultarPessoa(Pessoa pessoa)
+        public IActionResult ConsultarPessoa(Pessoa pessoa)
         {
-            return View();
+            var response = _pessoaService.ConsltarPessoa(pessoa);
+            return Ok(response);
         }
+
         [HttpPost()]
         [ProducesResponseType(typeof(Pessoa), 200)]
         [Route("/pessoa/cadastrar/")]
-        public IActionResult cadastrarPessoa(Pessoa pessoa)
+        public IActionResult CadastrarPessoa(Pessoa pessoa)
         {
-            return View();
+            var response = _pessoaService.CadastrarPessoa(pessoa);
+            return Ok(response);
         }
+
         [HttpPost()]
         [ProducesResponseType(typeof(Pessoa), 200)]
         [Route("/pessoa/editar/{idPessoa}")]
-        public IActionResult editarPessoa(Pessoa pessoa)
+        public IActionResult EditarPessoa(Pessoa pessoa)
         {
-            return View();
+            var response = _pessoaService.AlterarPessoa(pessoa);
+            return Ok(response);
         }
+
         [HttpPost()]
         [ProducesResponseType(typeof(Pessoa), 200)]
         [Route("/pessoa/excluir/{idPessoa}")]
-        public IActionResult excluirPessoa(Pessoa pessoa)
+        public IActionResult ExcluirPessoa(Guid idPessoa)
         {
-            return View();
+            var response = _pessoaService.ExcluirPessoa(idPessoa);
+            return Ok(response);
         }
     }
 }

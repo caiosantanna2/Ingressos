@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ingressos.Domain.Cliente
+namespace Ingressos.Domain.Entities.Empresa
 {
-    public class Endereco
+    internal class TipoEmpresa
     {
     }
 }

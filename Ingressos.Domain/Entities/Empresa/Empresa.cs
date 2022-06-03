@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ingressos.Domain.Empresa
+namespace Ingressos.Domain.Entities.Empresa
 {
-    internal class TipoEmpresa
+    internal class Empresa
     {
     }
 }
