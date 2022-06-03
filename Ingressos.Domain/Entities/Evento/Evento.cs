@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ingressos.Domain.Entities.Cliente
+namespace Ingressos.Domain.Entities.Evento
 {
-    public class Endereco
+    public class Evento
     {
         public Guid Id { get; set; }
         public int NumeroCep { get; set; }
@@ -16,6 +16,6 @@ namespace Ingressos.Domain.Entities.Cliente
         public string Complemento { get; set; }
         public string Estado { get; set; }
         public string Municipio { get; set; }
-        public Endereco() { }
+        public Evento() { }
     }
 }

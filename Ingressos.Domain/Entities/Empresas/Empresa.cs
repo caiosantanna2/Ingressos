@@ -1,4 +1,5 @@
 ﻿using Ingressos.Domain.Entities.Cliente;
+using Ingressos.Domain.Entities.Enderecos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

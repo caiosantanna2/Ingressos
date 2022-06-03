@@ -1,4 +1,5 @@
 using Ingressos.API.Configuration;
+using Ingressos.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +31,7 @@ namespace Ingressos
 
             services.AddControllers();
             services.RegisterInjections();
-           
+            services.RegisterDataBase();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ingressos", Version = "v1" });
@@ -47,6 +48,8 @@ namespace Ingressos
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ingressos v1"));
             }
 
+            var context = app.ApplicationServices.GetService<IngresssosContext>();
+            AdcionarDados.AdicionarDadosTeste(context);
             app.UseHttpsRedirection();
 
             app.UseRouting();

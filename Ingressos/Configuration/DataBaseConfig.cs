@@ -1,15 +1,17 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Ingressos.Data.Context;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ingressos.API.Configuration
 {
     public static class DataBaseConfig
     {
-        public static void RegisterDataBase(this IServiceCollection services, IConfiguration configuration)
+        public static void RegisterDataBase(this IServiceCollection services)
         {
             //services.AddDbContext<banco>(options =>
             //   options.UseSqlServer(configuration.GetConnectionString("conection")));
-            //services.AddDbContext<ApplicationContext>(options => options.UseInMemoryDatabase(databaseName: "Ingressos"));
+            services.AddDbContext<IngresssosContext>(options => options.UseInMemoryDatabase(databaseName: "Ingressos"));
 
         }
     }

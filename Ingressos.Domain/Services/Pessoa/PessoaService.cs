@@ -25,7 +25,7 @@ namespace Ingressos.Domain.Services.Pessoa
             return _pessoaRepository.CadastrarPessoa(pessoa);
         }
 
-        public Task<List<Entities.Cliente.Pessoa>> ConsltarPessoa(Entities.Cliente.Pessoa pessoa)
+        public List<Entities.Cliente.Pessoa> ConsltarPessoa(Entities.Cliente.Pessoa pessoa)
         {
             return _pessoaRepository.ConsultarPessoa(pessoa);
         }
