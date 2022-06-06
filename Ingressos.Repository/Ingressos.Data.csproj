@@ -12,9 +12,4 @@
     <ProjectReference Include="..\Ingressos.Domain\Ingressos.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\Venda\" />
-    <Folder Include="Repository\Venda\" />
-  </ItemGroup>
-
 </Project>

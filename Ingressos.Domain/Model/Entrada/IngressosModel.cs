@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ingressos.Domain.Model
+namespace Ingressos.Domain.Model.Entrada
 {
     public class IngressosModel
     {

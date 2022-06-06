@@ -12,9 +12,9 @@ namespace Ingressos.Domain.Interfaces.Repository
     public interface IEmpresaRepository
     {
         List<Empresa> ConsultarEmpresas();
-        Empresa ConsultarPorId(Guid IdEmpresa);
+        Empresa ConsultarPorId(Guid idEmpresa);
         Empresa CadastrarEmpresa(Empresa empresa);
         Empresa AlterarEmpresa(Empresa empresa);
-        string ExcluirEmpresa(Guid IdEmpresa);
+        string ExcluirEmpresa(Guid idEmpresa);
     }
 }

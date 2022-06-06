@@ -19,9 +19,17 @@ namespace Ingressos.Controllers
         [Route("/Pessoa/Consultar/Todas")]
         public IActionResult ConsultarPessoa()
         {
-            var response = _pessoaService.ConsultarPessoas();
+            try
+            {
+                return Ok(_pessoaService.ConsultarPessoas());
+            }
+            catch (Exception e)
+            {
+
+                //incluirLog
+                return StatusCode(500, "Falha ao consultar pessoas");
+            }
            
-            return Ok(response);
         }
 
         [HttpGet()]
@@ -29,9 +37,21 @@ namespace Ingressos.Controllers
         [Route("/Pessoa/Consultar/{idPessoa}")]
         public IActionResult ConsultarPessoa(Guid idPessoa)
         {
-            var response = _pessoaService.ConsultarPorId(idPessoa);
+            if (idPessoa == null || idPessoa == Guid.Empty)
+            {
+                return BadRequest();
+            }
 
-            return Ok(response);
+            try
+            {
+               return Ok(_pessoaService.ConsultarPorId(idPessoa));
+            }
+            catch (Exception e)
+            {
+                //incluirLog
+                return StatusCode(500, "Falha ao consultar pessoa");
+            }
+           
         }
 
         [HttpPost()]
@@ -39,8 +59,21 @@ namespace Ingressos.Controllers
         [Route("/Pessoa/Cadastrar/")]
         public IActionResult CadastrarPessoa([FromBody] Pessoa pessoa)
         {
-            var response = _pessoaService.CadastrarPessoa(pessoa);
-            return Ok(response);
+            if (pessoa == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                return Ok(_pessoaService.CadastrarPessoa(pessoa));
+            }
+            catch (Exception e)
+            {
+
+                //incluirLog
+                return StatusCode(500, "Falha ao cadastrar pessoa");
+            }
+           
         }
 
         [HttpPost()]
@@ -48,8 +81,21 @@ namespace Ingressos.Controllers
         [Route("/Pessoa/Editar/{idPessoa}")]
         public IActionResult EditarPessoa([FromBody] Pessoa pessoa)
         {
-            var response = _pessoaService.AlterarPessoa(pessoa);
-            return Ok(response);
+            if (pessoa == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                return Ok(_pessoaService.AlterarPessoa(pessoa));
+            }
+            catch (Exception e)
+            {
+
+                //incluirLog
+                return StatusCode(500, "Falha ao alterar pessoa");
+            }
+          
         }
 
         [HttpPost()]
@@ -57,8 +103,21 @@ namespace Ingressos.Controllers
         [Route("/Pessoa/Excluir/{idPessoa}")]
         public IActionResult ExcluirPessoa(Guid idPessoa)
         {
-            var response = _pessoaService.ExcluirPessoa(idPessoa);
-            return Ok(response);
+            if (idPessoa == null || idPessoa == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_pessoaService.ExcluirPessoa(idPessoa));
+            }
+            catch (Exception e)
+            {
+                //incluirLog
+                return StatusCode(500, "Falha ao excluir pessoa");
+            }
+           
         }
 
     }

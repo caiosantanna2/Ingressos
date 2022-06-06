@@ -12,8 +12,7 @@ namespace Ingressos.Domain.Entities.EventoIngresso
 {
     public class IngressosEventos
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
+    
         public Guid Id { get; set; }
         public string Descricao { get; set; }
         public double Valor { get; set; }

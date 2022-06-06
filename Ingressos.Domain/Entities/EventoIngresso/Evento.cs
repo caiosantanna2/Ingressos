@@ -16,6 +16,7 @@ namespace Ingressos.Domain.Entities.EventoIngresso
         public Endereco Endereco { get; set; }
         public DateTime DataEvento { get; set; }
         public Empresa Instituicao { get; set; }
+        public bool IsAtivo { get; set; }
        
     }
 }

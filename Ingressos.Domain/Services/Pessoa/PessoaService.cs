@@ -6,42 +6,113 @@ using System.Text;
 using System.Threading.Tasks;
 using Ingressos.Domain.Entities.Cliente;
 using Ingressos.Domain.Interfaces.Repository;
+using Ingressos.Domain.Model.Retorno;
 
 namespace Ingressos.Domain.Services.Cliente
 {
     public class PessoaService : IPessoaService
     {
         private readonly IPessoaRepository _pessoaRepository;
-       
-        public PessoaService(IPessoaRepository  pessoaRepository)
+
+        public PessoaService(IPessoaRepository pessoaRepository)
         {
-            _pessoaRepository = pessoaRepository;       
+            _pessoaRepository = pessoaRepository;
         }
 
-        public Pessoa AlterarPessoa(Pessoa pessoa)
+        public PessoasRetornoModel AlterarPessoa(Pessoa pessoa)
         {
-            return _pessoaRepository.AlterarPessoa(pessoa);
+            try
+            {
+                return _pessoaRepository.AlterarPessoa(pessoa);
+
+            }
+            catch (Exception e)
+            {
+                return new PessoasRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao alterar pessoa"
+                };
+
+            }
         }
 
-        public Pessoa CadastrarPessoa(Pessoa pessoa)
+        public PessoasRetornoModel CadastrarPessoa(Pessoa pessoa)
         {
-            return _pessoaRepository.CadastrarPessoa(pessoa);
+            try
+            {
+                return _pessoaRepository.CadastrarPessoa(pessoa);
+
+            }
+            catch (Exception e)
+            {
+
+                return new PessoasRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao cadastrar pessoa"
+                };
+
+            }
         }
 
-        public List<Pessoa> ConsultarPessoas()
+        public PessoasListRetornoModel ConsultarPessoas()
         {
-            return _pessoaRepository.ConsultarPessoas();
+            try
+            {
+                return _pessoaRepository.ConsultarPessoas();
+
+            }
+            catch (Exception e)
+            {
+                return new PessoasListRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao consultar pessoa"
+                };
+
+            }
         }
 
-        public Pessoa ConsultarPorId(Guid pessoa)
+        public PessoasRetornoModel ConsultarPorId(Guid pessoa)
         {
-            return _pessoaRepository.ConsultarPorId(pessoa);
+            try
+            {
+                return _pessoaRepository.ConsultarPorId(pessoa);
+
+            }
+            catch (Exception e)
+            {
+                return new PessoasRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao consultar pessoa"
+                };
+
+            }
 
         }
 
-        public string ExcluirPessoa(Guid IdPessoa)
+        public PessoasRetornoModel ExcluirPessoa(Guid IdPessoa)
         {
-            return _pessoaRepository.ExcluirPessoa(IdPessoa);
+            try
+            {
+                return new PessoasRetornoModel
+                {
+                    Mensagem = _pessoaRepository.ExcluirPessoa(IdPessoa)
+                };
+            }
+            catch (Exception e)
+            {
+                //Capturar log
+                return new PessoasRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao excluir pessoa"
+                };
+
+            }
+
         }
     }
 }

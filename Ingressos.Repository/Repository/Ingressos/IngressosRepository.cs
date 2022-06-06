@@ -55,37 +55,48 @@ namespace Ingressos.Data.Repository.Instituicao
 
         public List<IngressosEventos> ConsultaIngresosPorEvento(Guid idEvento)
         {
-            var response = _context.Ingressos.Include(x => x.Evento).ThenInclude(x => x.Instituicao).ThenInclude(x=> x.Endereco).
-                                              Include(x=> x.Evento).ThenInclude(x=> x.Endereco).
+            var response = _context.Ingressos.Include(x => x.Evento).ThenInclude(x => x.Instituicao).ThenInclude(x => x.Endereco).
+                                              Include(x => x.Evento).ThenInclude(x => x.Endereco).
                                               Where(x => x.Evento.Id == idEvento).ToList();
-            
+
             return response;
         }
 
-       
 
-        public List<Evento> ConsultarEvento()
-        {
-            var response = _context.Evento.Include(x => x.Endereco).
-                                           Include(x => x.Instituicao).ThenInclude(x => x.Endereco).ToList();
-            return response;
 
-        }
 
-        public IngressosEventos ConsultarPorId(Guid IdEvento)
+
+        public IngressosEventos ConsultaIngresosPorId(Guid idIngresso)
         {
             var response = _context.Ingressos.Include(x => x.Evento).
-                                              ThenInclude(x => x.Instituicao).ThenInclude(x => x.Endereco).FirstOrDefault(x => x.Id == IdEvento);
+                                              ThenInclude(x => x.Instituicao).ThenInclude(x => x.Endereco).FirstOrDefault(x => x.Id == idIngresso);
 
             return response;
 
         }
 
-      
+        public List<IngressosPessoas> ConsultarIngressosPessoa(Guid idPessoa)
+        {
+            var response = _context.IngressosPessoas.Include(x => x.Ingresso).ThenInclude(x => x.Evento).
+                            Include(x => x.Pessoa).Where(x => x.Pessoa.Id == idPessoa).ToList();
+
+            var response1 = _context.IngressosPessoas.Include(x => x.Ingresso).ThenInclude(x => x.Evento).
+                           Include(x => x.Pessoa).ToList();
+
+            return response;
+        }
+
+        public List<IngressosPessoas> ConsultarIngressosPessoaEvento(Guid idPessoa, Guid idEvento)
+        {
+            var response = _context.IngressosPessoas.Include(x => x.Ingresso).ThenInclude(x => x.Evento).
+                           Include(x => x.Pessoa).Where(x => x.Pessoa.Id == idPessoa && x.Ingresso.Evento.Id == idEvento).ToList();
+
+            return response;
+        }
 
         public string ExcluirIngressoEvento(Guid idIngresso)
         {
-            var ingresso = ConsultarPorId(idIngresso);
+            var ingresso = ConsultaIngresosPorId(idIngresso);
             if (ingresso != null)
             {
                 _context.Ingressos.Remove(ingresso);

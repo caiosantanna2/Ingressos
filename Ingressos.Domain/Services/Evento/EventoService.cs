@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Ingressos.Domain.Entities.Instituicao;
 using Ingressos.Domain.Interfaces.Repository;
 using Ingressos.Domain.Entities.EventoIngresso;
+using Ingressos.Domain.Model.Retorno;
 
 namespace Ingressos.Domain.Services.EventoServices
 {
@@ -19,30 +20,98 @@ namespace Ingressos.Domain.Services.EventoServices
             _eventoRepository = eventoRepository;
         }
 
-        public Evento AlterarEvento(Evento evento)
+        public EventoRetornoModel AlterarEvento(Evento evento)
         {
-            return _eventoRepository.AlterarEvento(evento);
+            try
+            {
+
+                return _eventoRepository.AlterarEvento(evento);
+            }
+            catch (Exception)
+            {
+
+                return new EventoRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao alterar evento"
+                };
+            }
         }
 
-        public Evento CadastrarEvento(Evento evento)
+        public EventoRetornoModel CadastrarEvento(Evento evento)
         {
-            return _eventoRepository.CadastrarEvento(evento);
+            try
+            {
+
+                return _eventoRepository.CadastrarEvento(evento);
+            }
+            catch (Exception)
+            {
+
+                return new EventoRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao cadastrar evento"
+                };
+            }
         }
 
-        public List<Evento> ConsultarEventos()
+        public EventoListRetornoModel ConsultarEventos()
         {
-            return _eventoRepository.ConsultarEvento();
+            try
+            {
+                return _eventoRepository.ConsultarEvento();
+
+            }
+            catch (Exception)
+            {
+
+                return new EventoListRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao consultar eventos"
+                };
+            }
 
         }
 
-        public Evento ConsultarPorId(Guid idEvento)
+        public EventoRetornoModel ConsultarPorId(Guid idEvento)
         {
-            return _eventoRepository.ConsultarPorId(idEvento);
+            try
+            {
+                return _eventoRepository.ConsultarPorId(idEvento);
+
+            }
+            catch (Exception)
+            {
+
+                return new EventoRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao consultar evento"
+                };
+            }
         }
 
-        public string ExcluirEvento(Guid idEvento)
+        public EventoRetornoModel ExcluirEvento(Guid idEvento)
         {
-            return _eventoRepository.ExcluirEvento(idEvento); 
+            try
+            {
+                return new EventoRetornoModel
+                {
+                    Mensagem = _eventoRepository.ExcluirEvento(idEvento)
+                };
+              
+            }
+            catch (Exception)
+            {
+
+                return new EventoRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao realizar venda"
+                };
+            }
         }
     }
 }

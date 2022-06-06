@@ -1,6 +1,7 @@
 ﻿
 using Ingressos.Domain.Entities.Instituicao;
 using Ingressos.Domain.Interfaces.Services;
+using Ingressos.Domain.Model.Retorno;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,46 +21,112 @@ namespace Ingressos.Controllers
         [HttpGet()]
         [ProducesResponseType(typeof(List<Empresa>), 200)]
         [Route("/Empresa/Consultar/Todos")]
-        public IActionResult ConsultarPessoa()
+        public IActionResult ConsultarEmpresas()
         {
-            var response = _empresaService.ConsultarEmpresas();
-            return Ok(response);
+            try
+            {
+                return Ok(_empresaService.ConsultarEmpresas());
+
+            }
+            catch (Exception e)
+            {
+                //incluirLog
+                return StatusCode(500, "Falha ao consular empresas");
+            }
+         
         }
 
         [HttpGet()]
-        [ProducesResponseType(typeof(List<Empresa>), 200)]
+        [ProducesResponseType(typeof(EmpresaListRetornoModel), 200)]
         [Route("/Empresa/Consultar/{idEmpresa}")]
-        public IActionResult ConsultarPessoa(Guid idEmpresa)
+        public IActionResult ConsultarEmpresa(Guid idEmpresa)
         {
-            var response = _empresaService.ConsultarPorId(idEmpresa);
-            return Ok(response);
+            if (idEmpresa == null || idEmpresa == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var response = _empresaService.ConsultarPorId(idEmpresa);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+
+                //incluirLog
+                return StatusCode(500, "Falha ao consutlar empresa");
+            }
+           
         }
 
         [HttpPost()]
-        [ProducesResponseType(typeof(Empresa), 200)]
+        [ProducesResponseType(typeof(EmpresaRetornoModel), 200)]
         [Route("/Empresa/Cadastrar/")]
-        public IActionResult CadastrarPessoa([FromBody] Empresa empresa)
+        public IActionResult CadastrarEmpresa([FromBody] Empresa empresa)
         {
-            var response = _empresaService.CadastrarEmpresa(empresa);
-            return Ok(response);
+            if (empresa == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_empresaService.CadastrarEmpresa(empresa));
+
+            }
+            catch (Exception e)
+            {
+                //incluirLog
+                return StatusCode(500, "Falha ao cadastrar empresa");
+            }
+           
         }
 
         [HttpPost()]
-        [ProducesResponseType(typeof(Empresa), 200)]
-        [Route("/Empresa/Editar/{idPessoa}")]
-        public IActionResult EditarPessoa([FromBody] Empresa empresa)
+        [ProducesResponseType(typeof(EmpresaRetornoModel), 200)]
+        [Route("/Empresa/Editar/{idEmpresa}")]
+        public IActionResult EditarEmpresa([FromBody] Empresa empresa)
         {
-            var response = _empresaService.AlterarEmpresa(empresa);
-            return Ok(response);
+            if(empresa == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_empresaService.AlterarEmpresa(empresa));
+            }
+            catch (Exception e)
+            {
+
+                //incluirLog
+                return StatusCode(500, "Falha ao editar empresa");
+            }
+            
         }
 
         [HttpPost()]
-        [ProducesResponseType(typeof(Empresa), 200)]
-        [Route("/Empresa/Excluir/{idPessoa}")]
-        public IActionResult ExcluirPessoa(Guid idEmpresa)
+        [ProducesResponseType(typeof(EmpresaRetornoModel), 200)]
+        [Route("/Empresa/Excluir/{idEmpresa}")]
+        public IActionResult ExcluirEmpresa(Guid idEmpresa)
         {
-            var response = _empresaService.ExcluirEmpresa(idEmpresa);
-            return Ok(response);
+            if (idEmpresa == null || idEmpresa == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_empresaService.ExcluirEmpresa(idEmpresa));
+            }
+            catch (Exception e)
+            {
+
+                //incluirLog
+                return StatusCode(500, "Falha ao excluir empresa");
+            }
+           
         }
     }
 }

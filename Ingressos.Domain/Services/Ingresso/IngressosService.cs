@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Ingressos.Domain.Entities.Instituicao;
 using Ingressos.Domain.Interfaces.Repository;
 using Ingressos.Domain.Entities.EventoIngresso;
-using Ingressos.Domain.Model;
+using Ingressos.Domain.Model.Entrada;
 
 namespace Ingressos.Domain.Services.Instituicao
 {
@@ -49,9 +49,19 @@ namespace Ingressos.Domain.Services.Instituicao
             return _ingressoRepository.ConsultaIngresosPorEvento(idEvento);
         }
 
-        public List<IngressosEventos> ConsultaIngresosPorPessoa(Guid idPessoa)
+        public IngressosEventos ConsultaIngresosPorId(Guid idIngresso)
         {
-            throw new NotImplementedException();
+            return _ingressoRepository.ConsultaIngresosPorId(idIngresso);
+        }
+
+        public List<IngressosPessoas> ConsultarIngressosPessoa(Guid idPessoa)
+        {
+            return _ingressoRepository.ConsultarIngressosPessoa(idPessoa);
+        }
+
+        public List<IngressosPessoas> ConsultarIngressosPessoaEvento(Guid idPessoa, Guid idEvento)
+        {
+            return _ingressoRepository.ConsultarIngressosPessoaEvento(idPessoa, idEvento);
         }
 
         public string ExcluirIngressoEvento(Guid idEvento)

@@ -1,4 +1,5 @@
 ﻿using Ingressos.Domain.Entities.Cliente;
+using Ingressos.Domain.Model.Retorno;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Ingressos.Domain.Interfaces.Services
 {
     public interface IPessoaService
     {
-        List<Pessoa> ConsultarPessoas();
-        Pessoa ConsultarPorId(Guid pessoa);
-        Pessoa CadastrarPessoa(Pessoa pessoa);
-        Pessoa AlterarPessoa(Pessoa pessoa);
-        string ExcluirPessoa(Guid IdPessoa);
+        PessoasListRetornoModel ConsultarPessoas();
+        PessoasRetornoModel ConsultarPorId(Guid pessoa);
+        PessoasRetornoModel CadastrarPessoa(Pessoa pessoa);
+        PessoasRetornoModel AlterarPessoa(Pessoa pessoa);
+        PessoasRetornoModel ExcluirPessoa(Guid IdPessoa);
     }
 }

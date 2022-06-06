@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Ingressos.Domain.Entities.Instituicao;
 using Ingressos.Domain.Interfaces.Repository;
+using Ingressos.Domain.Model.Retorno;
 
 namespace Ingressos.Domain.Services.Instituicao
 {
@@ -19,29 +20,101 @@ namespace Ingressos.Domain.Services.Instituicao
             _empresaRepository = empresaRepository;       
         }
 
-        public Empresa AlterarEmpresa(Empresa empresa)
+        public EmpresaRetornoModel AlterarEmpresa(Empresa empresa)
         {
-            return _empresaRepository.AlterarEmpresa(empresa);
+            try
+            {
+                return _empresaRepository.AlterarEmpresa(empresa);
+            }
+            catch (Exception)
+            {
+                return new EmpresaRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao alterar empresa"
+                };
+
+            }
+           
         }
 
-        public Empresa CadastrarEmpresa(Empresa empresa)
-        { 
-            return _empresaRepository.CadastrarEmpresa(empresa);
-        }
-       
-        public List<Empresa> ConsultarEmpresas()
+        public EmpresaRetornoModel CadastrarEmpresa(Empresa empresa)
         {
-            return _empresaRepository.ConsultarEmpresas();
+            try
+            {
+                return _empresaRepository.CadastrarEmpresa(empresa);
+            }
+
+            catch (Exception)
+            {
+                return new EmpresaRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao cadastrar empresa"
+                };
+              
+            }
+
         }
 
-        public Empresa ConsultarPorId(Guid IdEmpresa)
+        public EmpresaListRetornoModel ConsultarEmpresas()
         {
-            return _empresaRepository.ConsultarPorId(IdEmpresa);
+            try
+            {
+                return _empresaRepository.ConsultarEmpresas();
+            }
+            catch (Exception)
+            {
+
+                return new EmpresaListRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao consultar empresas"
+                };
+              
+            }
+          
         }
 
-        public string ExcluirEmpresa(Guid IdEmpresa)
+        public EmpresaRetornoModel ConsultarPorId(Guid IdEmpresa)
         {
-            return _empresaRepository.ExcluirEmpresa(IdEmpresa);
+            try
+            {
+                return _empresaRepository.ConsultarPorId(IdEmpresa);
+            }
+            catch (Exception e)
+            {
+                return new EmpresaRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao consultar empresa"
+                };
+                //Capturar log
+               
+            }
+        
+        }
+
+        public EmpresaRetornoModel ExcluirEmpresa(Guid IdEmpresa)
+        {
+            try
+            {
+                EmpresaRetornoModel empresaRetornoModel = new EmpresaRetornoModel();
+                empresaRetornoModel.Mensagem = _empresaRepository.ExcluirEmpresa(IdEmpresa);
+
+                return empresaRetornoModel;
+            }
+            catch (Exception)
+            {
+                return new EmpresaRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao consultar empresa"
+                };
+                //Capturar log
+              
+            }
+         
         }
     }
 }

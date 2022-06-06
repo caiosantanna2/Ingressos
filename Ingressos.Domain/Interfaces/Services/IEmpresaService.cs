@@ -1,6 +1,7 @@
 ﻿
 
 using Ingressos.Domain.Entities.Instituicao;
+using Ingressos.Domain.Model.Retorno;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,10 @@ namespace Ingressos.Domain.Interfaces.Services
 {
     public interface IEmpresaService
     {
-        List<Empresa> ConsultarEmpresas();
-        Empresa ConsultarPorId(Guid IdEmpresa);
-        Empresa CadastrarEmpresa(Empresa empresa);
-        Empresa AlterarEmpresa(Empresa empresa);
-        string ExcluirEmpresa(Guid IdEmpresa);
+        EmpresaListRetornoModel ConsultarEmpresas();
+        EmpresaRetornoModel ConsultarPorId(Guid IdEmpresa);
+        EmpresaRetornoModel CadastrarEmpresa(Empresa empresa);
+        EmpresaRetornoModel AlterarEmpresa(Empresa empresa);
+        EmpresaRetornoModel ExcluirEmpresa(Guid IdEmpresa);
     }
 }

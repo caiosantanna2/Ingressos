@@ -20,8 +20,16 @@ namespace Ingressos.Controllers
         [Route("/Evento/Consultar/Todos")]
         public IActionResult ConsultarEvento()
         {
-            var response = _eventoService.ConsultarEventos();
-            return Ok(response);
+            try
+            {
+                return Ok(_eventoService.ConsultarEventos());
+            }
+            catch (Exception e)
+            {
+                //incluirLog
+                return StatusCode(500, "Falha ao consular eventos");
+            }
+
         }
 
         [HttpGet()]
@@ -29,8 +37,22 @@ namespace Ingressos.Controllers
         [Route("/Evento/Consultar/{idEvento}")]
         public IActionResult ConsultarEvento(Guid idEvento)
         {
-            var response = _eventoService.ConsultarPorId(idEvento);
-            return Ok(response);
+            if (idEvento == null || idEvento == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_eventoService.ConsultarPorId(idEvento));
+
+            }
+            catch (Exception e)
+            {
+                //incluirLog
+                return StatusCode(500, "Falha ao consultar evento");
+            }
+           
         }
 
         [HttpPost()]
@@ -38,8 +60,21 @@ namespace Ingressos.Controllers
         [Route("/Evento/Cadastrar/")]
         public IActionResult CadastrarEvento([FromBody] Evento evento)
         {
-            var response = _eventoService.CadastrarEvento(evento);
-            return Ok(response);
+            if (evento == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_eventoService.CadastrarEvento(evento));
+            }
+            catch (Exception e)
+            {
+                //incluirLog
+                return StatusCode(500, "Falha ao cadastrar evento");
+            }
+
         }
 
         [HttpPost()]
@@ -47,8 +82,21 @@ namespace Ingressos.Controllers
         [Route("/Evento/Editar/{idEvento}")]
         public IActionResult EditarEvento([FromBody] Evento evento)
         {
-            var response = _eventoService.AlterarEvento(evento);
-            return Ok(response);
+            if (evento == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_eventoService.AlterarEvento(evento));
+            }
+            catch (Exception e)
+            {
+                //incluirLog
+                return StatusCode(500, "Falha ao editar evento");
+            }
+            
         }
 
         [HttpPost()]
@@ -56,8 +104,21 @@ namespace Ingressos.Controllers
         [Route("/Evento/Excluir/{idEvento}")]
         public IActionResult ExcluirEvento(Guid idEvento)
         {
-            var response = _eventoService.ExcluirEvento(idEvento);
-            return Ok(response);
+            if (idEvento == null || idEvento == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_eventoService.ExcluirEvento(idEvento));
+            }
+            catch (Exception e)
+            {
+                //incluirLog
+                return StatusCode(500, "Falha ao excluir evento");
+            }
+           
         }
     }
 }

@@ -3,7 +3,9 @@ using Ingressos.Domain.Entities.Cliente;
 using Ingressos.Domain.Entities.Enderecos;
 using Ingressos.Domain.Entities.EventoIngresso;
 using Ingressos.Domain.Entities.Instituicao;
+using Ingressos.Domain.Entities.Vendas;
 using System;
+using System.Collections.Generic;
 
 namespace Ingressos.API.Configuration
 {
@@ -97,8 +99,40 @@ namespace Ingressos.API.Configuration
                 Evento = testeEvento
 
             };
-
             context.Ingressos.Add(testeIngresso2);
+
+            var ingressos = new List<IngressosPessoas>();
+           
+            var ingresso1 = new IngressosPessoas
+            {
+                Ingresso = testeIngresso1,
+                Pessoa = testePessoa,
+                
+
+            };
+
+            var ingresso2 = new IngressosPessoas
+            {
+                Ingresso = testeIngresso2,
+                Pessoa = testePessoa,
+
+
+            };
+            ingressos.Add(ingresso1);
+            ingressos.Add(ingresso2);
+
+            var testeVenda = new Venda
+            {
+                // Id = new Guid(),
+                DataVenda = new DateTime(2022, 06, 01),
+                TransacaoPagamento = "fd9sfsd98fs8f",
+                ValorVenda = 1500,
+                Ingressos = ingressos
+            };
+
+            context.Add(testeVenda);
+
+           
 
            
             context.SaveChanges();

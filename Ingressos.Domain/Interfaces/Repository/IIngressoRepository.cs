@@ -12,8 +12,10 @@ namespace Ingressos.Domain.Interfaces.Repository
     {
 
         IngressosEventos CadastrarIngressoEvento(IngressosEventos evento);
+        List<IngressosPessoas> ConsultarIngressosPessoaEvento(Guid idPessoa, Guid idEvento);
+        List<IngressosPessoas> ConsultarIngressosPessoa(Guid idPessoa);
+        IngressosEventos ConsultaIngresosPorId(Guid idIngresso);
         List<IngressosEventos> ConsultaIngresosPorEvento(Guid idEvento);
-       // List<IngressosEventos> ConsultaIngresosPorPessoa(Guid idPessoa);
         string ExcluirIngressoEvento(Guid idEvento);
         IngressosEventos AlterarIngresosEvento(IngressosEventos evento);
 

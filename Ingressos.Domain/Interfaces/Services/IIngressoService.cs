@@ -1,6 +1,6 @@
 ﻿using Ingressos.Domain.Entities.Cliente;
 using Ingressos.Domain.Entities.EventoIngresso;
-using Ingressos.Domain.Model;
+using Ingressos.Domain.Model.Entrada;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +12,13 @@ namespace Ingressos.Domain.Interfaces.Services
     public interface IIngressoService
     {
 
-        IngressosEventos CadastrarIngressoEvento(IngressosModel evento);
+       
         List<IngressosEventos> ConsultaIngresosPorEvento(Guid idEvento);
-        List<IngressosEventos> ConsultaIngresosPorPessoa(Guid idPessoa);
-     
+        List<IngressosPessoas> ConsultarIngressosPessoaEvento(Guid idPessoa, Guid idEvento);
+        List<IngressosPessoas> ConsultarIngressosPessoa(Guid idPessoa);
+        IngressosEventos ConsultaIngresosPorId(Guid idIngresso);
+
+        IngressosEventos CadastrarIngressoEvento(IngressosModel evento);
         string ExcluirIngressoEvento(Guid idEvento);
         IngressosEventos AlterarIngresosEvento(IngressosEventos evento);
 

@@ -4,12 +4,13 @@
 
 using Ingressos.Data.Repository.Cliente;
 using Ingressos.Data.Repository.Instituicao;
+using Ingressos.Data.Repository.VendaRepository;
 using Ingressos.Domain.Interfaces.Repository;
 using Ingressos.Domain.Interfaces.Services;
 using Ingressos.Domain.Services.Cliente;
 using Ingressos.Domain.Services.EventoServices;
 using Ingressos.Domain.Services.Instituicao;
-
+using Ingressos.Domain.Services.VendaService;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ingressos.API.Configuration
@@ -29,6 +30,9 @@ namespace Ingressos.API.Configuration
 
             services.AddScoped<IIngressoService, IngressoService>();
             services.AddScoped<IIngressoRepository, IngressosRepository>();
+
+            services.AddScoped<IVendaService, VendaService>();
+            services.AddScoped<IVendaRepository, VendaRepository>();
 
 
         }
