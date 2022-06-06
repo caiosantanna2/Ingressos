@@ -1,4 +1,4 @@
-﻿using Ingressos.Domain.Interfaces.Services;
+﻿
 using Ingressos.Domain.Entities.Cliente;
 
 using System;
@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ingressos.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using Ingressos.Domain.Interfaces.Repository;
 
 namespace Ingressos.Data.Repository.Cliente
 {

@@ -1,6 +1,7 @@
 ﻿using Ingressos.Data.Context;
 using Ingressos.Domain.Entities.Cliente;
 using Ingressos.Domain.Entities.Enderecos;
+using Ingressos.Domain.Entities.EventoIngresso;
 using Ingressos.Domain.Entities.Instituicao;
 using System;
 
@@ -12,7 +13,7 @@ namespace Ingressos.API.Configuration
         {
             var testePessoa = new Pessoa
             {
-                Id = new Guid(),
+                // Id = new Guid(),
                 Nome = "Caio",
                 Email = "caio@yahoo.com",
                 Cpf = "01274485520",
@@ -31,14 +32,14 @@ namespace Ingressos.API.Configuration
             };
 
             context.Pessoas.Add(testePessoa);
-           
-            var testeEmpres = new Empresa
+
+            var testeEmpresa = new Empresa
             {
-                Id = new Guid(),
-                
+                // Id = new Guid(),
+
                 Nome = "Empresa Eventos S.A",
                 CNPJ = "11.010.100/0001-01",
-                Endereco =  new Endereco
+                Endereco = new Endereco
                 {
                     Id = new Guid(),
                     Bairro = "Asa Sul",
@@ -51,7 +52,55 @@ namespace Ingressos.API.Configuration
                 }
             };
 
-            context.Empresa.Add(testeEmpres);
+            context.Empresa.Add(testeEmpresa);
+
+            var testeEvento = new Evento
+            {
+                // Id = new Guid(),
+                Name = "Festa de Aniversario",
+                DataEvento = new DateTime(2022, 07, 01, 15, 00, 00),
+                Instituicao = testeEmpresa,
+                Endereco = new Endereco
+                {
+                    Id = new Guid(),
+                    Bairro = "Asa Norte",
+                    Complemento = "Parque Asa Norte",
+                    Estado = "DF",
+                    Logradouro = "Parque",
+                    Municipio = "Brasilia",
+                    Numero = "S/N",
+                    NumeroCep = 72660710
+                }
+            };
+
+            context.Evento.Add(testeEvento);
+
+            var testeIngresso1 = new IngressosEventos
+            {
+                // Id = new Guid(),
+                Descricao = "Pista",
+                Quantidade = 500,
+                Valor = 50.00,
+                Evento = testeEvento
+               
+            };
+
+            context.Ingressos.Add(testeIngresso1);
+
+
+            var testeIngresso2 = new IngressosEventos
+            {
+                // Id = new Guid(),
+                Descricao = "Camarote",
+                Quantidade = 500,
+                Valor = 150.00,
+                Evento = testeEvento
+
+            };
+
+            context.Ingressos.Add(testeIngresso2);
+
+           
             context.SaveChanges();
         }
     }

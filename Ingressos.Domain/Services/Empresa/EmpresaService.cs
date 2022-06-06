@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Ingressos.Domain.Entities.Instituicao;
+using Ingressos.Domain.Interfaces.Repository;
 
 namespace Ingressos.Domain.Services.Instituicao
 {

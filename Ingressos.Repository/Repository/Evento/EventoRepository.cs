@@ -9,18 +9,19 @@ using System.Threading.Tasks;
 using Ingressos.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Ingressos.Domain.Interfaces.Repository;
+using Ingressos.Domain.Entities.EventoIngresso;
 
 namespace Ingressos.Data.Repository.Instituicao
 {
-    public class EmpresaRepository : IEmpresaRepository
+    public class EventoRepository : IEventoRepository
     {
         private readonly IngresssosContext _context;
 
-        public EmpresaRepository(IngresssosContext context)
+        public EventoRepository(IngresssosContext context)
         {
             _context = context;
         }
-        public Empresa AlterarEmpresa(Empresa empresa)
+        public Evento AlterarEvento(Evento empresa)
         {
             _context.Entry(empresa).State = EntityState.Modified;
             _context.Update(empresa);
@@ -29,34 +30,36 @@ namespace Ingressos.Data.Repository.Instituicao
             return empresa;
         }
 
-        public Empresa CadastrarEmpresa(Empresa empresa)
+        public Evento CadastrarEvento(Evento evento)
         {
-            _context.Add(empresa);
+            _context.Add(evento);
             _context.SaveChanges();
-            return empresa;
+            return evento;
         }
 
-        public List<Empresa> ConsultarEmpresas()
+        public List<Evento> ConsultarEvento()
         {
-            var response = _context.Empresa.Include(x => x.Endereco).ToList();
+            var response = _context.Evento.Include(x => x.Endereco).
+                                           Include(x => x.Instituicao).ThenInclude(x => x.Endereco).ToList();
             return response;
 
         }
 
-        public Empresa ConsultarPorId(Guid IdEmpresa)
+        public Evento ConsultarPorId(Guid IdEvento)
         {
-            var response = _context.Empresa.Include(x => x.Endereco).FirstOrDefault(x => x.Id == IdEmpresa);
+            var response = _context.Evento.Include(x => x.Endereco).
+                                           Include(x => x.Instituicao).ThenInclude(x => x.Endereco).FirstOrDefault(x => x.Id == IdEvento);
 
             return response;
 
         }
 
-        public string ExcluirEmpresa(Guid IdEmpresa)
+        public string ExcluirEvento(Guid IdEvento)
         {
-            var empresa = ConsultarPorId(IdEmpresa);
-            if (empresa != null)
+            var evento = ConsultarPorId(IdEvento);
+            if (evento != null)
             {
-                _context.Empresa.Remove(empresa);
+                _context.Evento.Remove(evento);
                 _context.SaveChanges();
                 return "Empresa excluída com sucesso!";
             }

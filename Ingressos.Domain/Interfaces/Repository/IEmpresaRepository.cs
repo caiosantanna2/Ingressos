@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ingressos.Domain.Interfaces.Services
+namespace Ingressos.Domain.Interfaces.Repository
 {
     public interface IEmpresaRepository
     {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ingressos.Domain.Entities.Cliente;
+using Ingressos.Domain.Interfaces.Repository;
 
 namespace Ingressos.Domain.Services.Cliente
 {

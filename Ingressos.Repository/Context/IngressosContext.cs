@@ -2,6 +2,7 @@
 using Ingressos.Domain.Entities.Cliente;
 
 using Ingressos.Domain.Entities.Enderecos;
+using Ingressos.Domain.Entities.EventoIngresso;
 using Ingressos.Domain.Entities.Instituicao;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,8 +16,7 @@ namespace Ingressos.Data.Context
         { }
         public DbSet<Pessoa> Pessoas { get; set; }
         public DbSet<Empresa> Empresa { get; set; }
-
-       
-        
+        public DbSet<Evento> Evento { get; set; }
+        public DbSet<IngressosEventos> Ingressos { get; set; }
     }
 }
