@@ -1,5 +1,6 @@
 ﻿using Ingressos.Domain.Entities.EventoIngresso;
 using Ingressos.Domain.Interfaces.Services;
+using Ingressos.Domain.Model.Retorno;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Ingressos.Controllers
         }
 
         [HttpGet()]
-        [ProducesResponseType(typeof(List<Evento>), 200)]
+        [ProducesResponseType(typeof(EventoListRetornoModel), 200)]
         [Route("/Evento/Consultar/Todos")]
         public IActionResult ConsultarEvento()
         {
@@ -24,7 +25,7 @@ namespace Ingressos.Controllers
             {
                 return Ok(_eventoService.ConsultarEventos());
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //incluirLog
                 return StatusCode(500, "Falha ao consular eventos");
@@ -33,11 +34,11 @@ namespace Ingressos.Controllers
         }
 
         [HttpGet()]
-        [ProducesResponseType(typeof(List<Evento>), 200)]
+        [ProducesResponseType(typeof(EventoListRetornoModel), 200)]
         [Route("/Evento/Consultar/{idEvento}")]
         public IActionResult ConsultarEvento(Guid idEvento)
         {
-            if (idEvento == null || idEvento == Guid.Empty)
+            if (idEvento == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -47,7 +48,7 @@ namespace Ingressos.Controllers
                 return Ok(_eventoService.ConsultarPorId(idEvento));
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //incluirLog
                 return StatusCode(500, "Falha ao consultar evento");
@@ -56,7 +57,7 @@ namespace Ingressos.Controllers
         }
 
         [HttpPost()]
-        [ProducesResponseType(typeof(Evento), 200)]
+        [ProducesResponseType(typeof(EventoRetornoModel), 200)]
         [Route("/Evento/Cadastrar/")]
         public IActionResult CadastrarEvento([FromBody] Evento evento)
         {
@@ -69,7 +70,7 @@ namespace Ingressos.Controllers
             {
                 return Ok(_eventoService.CadastrarEvento(evento));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //incluirLog
                 return StatusCode(500, "Falha ao cadastrar evento");
@@ -78,7 +79,7 @@ namespace Ingressos.Controllers
         }
 
         [HttpPost()]
-        [ProducesResponseType(typeof(Evento), 200)]
+        [ProducesResponseType(typeof(EventoRetornoModel), 200)]
         [Route("/Evento/Editar/{idEvento}")]
         public IActionResult EditarEvento([FromBody] Evento evento)
         {
@@ -91,7 +92,7 @@ namespace Ingressos.Controllers
             {
                 return Ok(_eventoService.AlterarEvento(evento));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //incluirLog
                 return StatusCode(500, "Falha ao editar evento");
@@ -100,11 +101,11 @@ namespace Ingressos.Controllers
         }
 
         [HttpPost()]
-        [ProducesResponseType(typeof(Evento), 200)]
+        [ProducesResponseType(typeof(EventoRetornoModel), 200)]
         [Route("/Evento/Excluir/{idEvento}")]
         public IActionResult ExcluirEvento(Guid idEvento)
         {
-            if (idEvento == null || idEvento == Guid.Empty)
+            if (idEvento == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -113,7 +114,7 @@ namespace Ingressos.Controllers
             {
                 return Ok(_eventoService.ExcluirEvento(idEvento));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //incluirLog
                 return StatusCode(500, "Falha ao excluir evento");

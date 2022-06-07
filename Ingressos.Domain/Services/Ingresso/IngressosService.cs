@@ -9,6 +9,7 @@ using Ingressos.Domain.Entities.Instituicao;
 using Ingressos.Domain.Interfaces.Repository;
 using Ingressos.Domain.Entities.EventoIngresso;
 using Ingressos.Domain.Model.Entrada;
+using Ingressos.Domain.Model.Retorno;
 
 namespace Ingressos.Domain.Services.Instituicao
 {
@@ -25,48 +26,137 @@ namespace Ingressos.Domain.Services.Instituicao
             _eventoRepository = eventoRepository;
         }
 
-        public IngressosEventos AlterarIngresosEvento(IngressosEventos evento)
+        public IngressosEventosRetornoModel AlterarIngresosEvento(IngressosEventos evento)
         {
             return _ingressoRepository.AlterarIngresosEvento(evento);
         }
 
-        public IngressosEventos CadastrarIngressoEvento(IngressosModel ingressso)
+        public IngressosEventosRetornoModel CadastrarIngressoEvento(IngressosModel ingressso)
         {
-            var evento = _eventoRepository.ConsultarPorId(ingressso.IdEvento);
-            if (evento == null)
+            try
             {
-                throw new Exception("Evento nao encotrado");
+                var evento = _eventoRepository.ConsultarPorId(ingressso.IdEvento);
+               
+                if (evento == null)
+                {
+                    return new IngressosEventosRetornoModel()
+                    {
+                        IsSucesso = false,
+                        Mensagem = "Não foi possível cadastrar o ingresso, evento não encontrado."
+                    };
+
+                }
+
+                IngressosEventos ingressosEventos = ingressso;
+                ingressosEventos.Evento = evento;
+
+                return _ingressoRepository.CadastrarIngressoEvento(ingressosEventos);
+            }
+            catch (Exception)
+            {
+
+                return new IngressosEventosRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao cadastrar ingresso"
+                };
+            }
+            
+        }
+
+        public IngressosEventosListRetornoModel ConsultaIngresosPorEvento(Guid idEvento)
+        {
+            try
+            {
+                return _ingressoRepository.ConsultaIngresosPorEvento(idEvento);
+            }
+            catch (Exception)
+            {
+
+                return new IngressosEventosListRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao cadastrar ingresso"
+                };
+            }
+        }
+        
+
+        public IngressosEventosRetornoModel ConsultaIngresosPorId(Guid idIngresso)
+        {
+            try
+            {
+                return _ingressoRepository.ConsultaIngresosPorId(idIngresso);
+            }
+            catch (Exception)
+            {
+
+                return new IngressosEventosRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao cadastrar ingresso"
+                };
+            }
+           
+        }
+
+        public IngressosPessoasListRetornoModel ConsultarIngressosPessoa(Guid idPessoa)
+        {
+            try
+            {
+                return _ingressoRepository.ConsultarIngressosPessoa(idPessoa);
+            }
+            catch (Exception)
+            {
+
+
+                return new IngressosPessoasListRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao cadastrar ingresso"
+                };
+            }
+           
+        }
+
+        public IngressosPessoasListRetornoModel ConsultarIngressosPessoaEvento(Guid idPessoa, Guid idEvento)
+        {
+            try
+            {
+                return _ingressoRepository.ConsultarIngressosPessoaEvento(idPessoa, idEvento);
+            }
+            catch (Exception)
+            {
+
+                return new IngressosPessoasListRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao cadastrar ingresso"
+                };
+            }
+           
+        }
+
+        public IngressosEventosRetornoModel ExcluirIngressoEvento(Guid idEvento)
+        {
+            try
+            {
+                return new IngressosEventosRetornoModel
+                {
+                    Mensagem = _ingressoRepository.ExcluirIngressoEvento(idEvento)
+                };
+            }
+            catch (Exception)
+            {
+                //Capturar log
+                return new IngressosEventosRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao excluir pessoa"
+                };
 
             }
-            IngressosEventos ingressosEventos = ingressso;
-            ingressosEventos.Evento = evento;
-
-            return _ingressoRepository.CadastrarIngressoEvento(ingressosEventos);
-        }
-
-        public List<IngressosEventos> ConsultaIngresosPorEvento(Guid idEvento)
-        {
-            return _ingressoRepository.ConsultaIngresosPorEvento(idEvento);
-        }
-
-        public IngressosEventos ConsultaIngresosPorId(Guid idIngresso)
-        {
-            return _ingressoRepository.ConsultaIngresosPorId(idIngresso);
-        }
-
-        public List<IngressosPessoas> ConsultarIngressosPessoa(Guid idPessoa)
-        {
-            return _ingressoRepository.ConsultarIngressosPessoa(idPessoa);
-        }
-
-        public List<IngressosPessoas> ConsultarIngressosPessoaEvento(Guid idPessoa, Guid idEvento)
-        {
-            return _ingressoRepository.ConsultarIngressosPessoaEvento(idPessoa, idEvento);
-        }
-
-        public string ExcluirIngressoEvento(Guid idEvento)
-        {
-            return _ingressoRepository.ExcluirIngressoEvento(idEvento);
+           
         }
     }
 }

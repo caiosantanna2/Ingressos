@@ -19,7 +19,7 @@ namespace Ingressos.Controllers
         }
 
         [HttpGet()]
-        [ProducesResponseType(typeof(List<Empresa>), 200)]
+        [ProducesResponseType(typeof(EmpresaListRetornoModel), 200)]
         [Route("/Empresa/Consultar/Todos")]
         public IActionResult ConsultarEmpresas()
         {
@@ -28,7 +28,7 @@ namespace Ingressos.Controllers
                 return Ok(_empresaService.ConsultarEmpresas());
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //incluirLog
                 return StatusCode(500, "Falha ao consular empresas");
@@ -41,7 +41,7 @@ namespace Ingressos.Controllers
         [Route("/Empresa/Consultar/{idEmpresa}")]
         public IActionResult ConsultarEmpresa(Guid idEmpresa)
         {
-            if (idEmpresa == null || idEmpresa == Guid.Empty)
+            if (idEmpresa == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -51,7 +51,7 @@ namespace Ingressos.Controllers
                 var response = _empresaService.ConsultarPorId(idEmpresa);
                 return Ok(response);
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 //incluirLog
@@ -75,7 +75,7 @@ namespace Ingressos.Controllers
                 return Ok(_empresaService.CadastrarEmpresa(empresa));
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //incluirLog
                 return StatusCode(500, "Falha ao cadastrar empresa");
@@ -97,7 +97,7 @@ namespace Ingressos.Controllers
             {
                 return Ok(_empresaService.AlterarEmpresa(empresa));
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 //incluirLog
@@ -111,7 +111,7 @@ namespace Ingressos.Controllers
         [Route("/Empresa/Excluir/{idEmpresa}")]
         public IActionResult ExcluirEmpresa(Guid idEmpresa)
         {
-            if (idEmpresa == null || idEmpresa == Guid.Empty)
+            if (idEmpresa == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -120,7 +120,7 @@ namespace Ingressos.Controllers
             {
                 return Ok(_empresaService.ExcluirEmpresa(idEmpresa));
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 //incluirLog

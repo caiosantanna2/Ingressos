@@ -82,7 +82,7 @@ namespace Ingressos.Domain.Services.Instituicao
             {
                 return _empresaRepository.ConsultarPorId(IdEmpresa);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new EmpresaRetornoModel()
                 {

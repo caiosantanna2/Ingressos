@@ -26,7 +26,7 @@ namespace Ingressos.Domain.Services.Cliente
                 return _pessoaRepository.AlterarPessoa(pessoa);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new PessoasRetornoModel()
                 {
@@ -44,7 +44,7 @@ namespace Ingressos.Domain.Services.Cliente
                 return _pessoaRepository.CadastrarPessoa(pessoa);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 return new PessoasRetornoModel()
@@ -63,7 +63,7 @@ namespace Ingressos.Domain.Services.Cliente
                 return _pessoaRepository.ConsultarPessoas();
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new PessoasListRetornoModel()
                 {
@@ -81,7 +81,7 @@ namespace Ingressos.Domain.Services.Cliente
                 return _pessoaRepository.ConsultarPorId(pessoa);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new PessoasRetornoModel()
                 {
@@ -102,7 +102,7 @@ namespace Ingressos.Domain.Services.Cliente
                     Mensagem = _pessoaRepository.ExcluirPessoa(IdPessoa)
                 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Capturar log
                 return new PessoasRetornoModel()

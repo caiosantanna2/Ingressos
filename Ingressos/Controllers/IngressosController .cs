@@ -1,6 +1,7 @@
 ﻿using Ingressos.Domain.Entities.EventoIngresso;
 using Ingressos.Domain.Interfaces.Services;
 using Ingressos.Domain.Model.Entrada;
+using Ingressos.Domain.Model.Retorno;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,11 @@ namespace Ingressos.Controllers
 
         }
         [HttpGet()]
-        [ProducesResponseType(typeof(List<IngressosEventos>), 200)]
+        [ProducesResponseType(typeof(IngressosEventosListRetornoModel), 200)]
         [Route("/Ingressos/Consultar/Pessoa/{idPessoa}")]
         public IActionResult ConsultarIngressosPorPessoa(Guid idPessoa)
         {
-            if (idPessoa == null || idPessoa == Guid.Empty)
+            if (idPessoa == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -29,7 +30,7 @@ namespace Ingressos.Controllers
             {
                 return Ok(_ingresssoService.ConsultarIngressosPessoa(idPessoa));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //log
                 return StatusCode(500, "Falha ao consultar ingressos");
@@ -37,38 +38,12 @@ namespace Ingressos.Controllers
             }
            
         }
-
-        [HttpPost()]
-        [ProducesResponseType(typeof(IngressosModel), 200)]
-        [Route("/Ingressos/Cadastrar/")]
-        public IActionResult CadastrarIngressos([FromBody] IngressosModel ingressos)
-        {
-
-            if (ingressos == null)
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                return Ok(_ingresssoService.CadastrarIngressoEvento(ingressos));
-            }
-            catch (Exception e)
-            {
-                //log
-                return StatusCode(500, "Falha ao cadastrar ingressos");
-            }
-
-          
-        }
-
-        
         [HttpGet()]
-        [ProducesResponseType(typeof(List<IngressosEventos>), 200)]
+        [ProducesResponseType(typeof(IngressosEventosListRetornoModel), 200)]
         [Route("/Ingressos/Consultar/Pessoa/{idPessoa}/Evento/{idEvento}")]
         public IActionResult ConsultarIngressosPorPessoaEvento(Guid idPessoa, Guid idEvento)
         {
-            if (idPessoa == null || idPessoa == Guid.Empty || idEvento == null || idEvento == Guid.Empty)
+            if (idPessoa == Guid.Empty || idEvento == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -77,20 +52,20 @@ namespace Ingressos.Controllers
             {
                 return Ok(_ingresssoService.ConsultarIngressosPessoaEvento(idPessoa, idEvento));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //log
                 return StatusCode(500, "Falha ao consultar ingressos");
             }
-            
+
         }
 
         [HttpGet()]
-        [ProducesResponseType(typeof(List<IngressosEventos>), 200)]
+        [ProducesResponseType(typeof(IngressosEventosListRetornoModel), 200)]
         [Route("/Ingressos/Consultar/Evento/{idEvento}")]
         public IActionResult ConsultarIngressosPorEvento(Guid idEvento)
         {
-            if (idEvento == null || idEvento == Guid.Empty)
+            if (idEvento == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -105,13 +80,35 @@ namespace Ingressos.Controllers
                 //log
                 return StatusCode(500, "Falha ao consultar ingressos");
             }
-           
+
+        }
+        [HttpPost()]
+        [ProducesResponseType(typeof(IngressosEventosRetornoModel), 200)]
+        [Route("/Ingressos/Cadastrar/")]
+        public IActionResult CadastrarIngressos([FromBody] IngressosModel ingressos)
+        {
+
+            if (ingressos == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_ingresssoService.CadastrarIngressoEvento(ingressos));
+            }
+            catch (Exception)
+            {
+                //log
+                return StatusCode(500, "Falha ao cadastrar ingressos");
+            }
+
+          
         }
 
-
-
+        
         [HttpPost()]
-        [ProducesResponseType(typeof(Evento), 200)]
+        [ProducesResponseType(typeof(IngressosEventosRetornoModel), 200)]
         [Route("/Ingressos/Editar/{idEvento}")]
         public IActionResult EditarIngresso([FromBody] IngressosEventos ingressoEvento)
         {
@@ -125,7 +122,7 @@ namespace Ingressos.Controllers
             {
                 return Ok(_ingresssoService.AlterarIngresosEvento(ingressoEvento));
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 //log
@@ -135,11 +132,11 @@ namespace Ingressos.Controllers
         }
 
         [HttpPost()]
-        [ProducesResponseType(typeof(Evento), 200)]
+        [ProducesResponseType(typeof(IngressosEventosRetornoModel), 200)]
         [Route("/Ingressos/Excluir/{idIngressos}")]
         public IActionResult ExcluirEvento(Guid idIngressos)
         {
-            if (idIngressos == null || idIngressos == Guid.Empty)
+            if (idIngressos == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -148,7 +145,7 @@ namespace Ingressos.Controllers
             {
                 return Ok(_ingresssoService.ExcluirIngressoEvento(idIngressos));
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //log
                 return StatusCode(500, "Falha ao excluir ingressos");

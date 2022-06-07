@@ -108,7 +108,7 @@ namespace Ingressos.Domain.Services.VendaService
                     {
                         ingressosPessoa.Add(new IngressosPessoas()
                         {
-                            Ingresso = responseIngresso,
+                            Ingresso = responseIngresso.IngressosEventos,
                             Pessoa = responsePessoa.Pessoa
                         });
 
@@ -120,7 +120,7 @@ namespace Ingressos.Domain.Services.VendaService
 
                 return _vendaRepository.RealizaVenda(venda);
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 return new VendaRetornoModel()
