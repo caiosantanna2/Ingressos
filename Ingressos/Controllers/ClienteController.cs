@@ -77,7 +77,7 @@ namespace Ingressos.Controllers
            
         }
 
-        [HttpPost()]
+        [HttpPut()]
         [ProducesResponseType(typeof(PessoasRetornoModel), 200)]
         [Route("/Pessoa/Editar/{idPessoa}")]
         public IActionResult EditarPessoa([FromBody] Pessoa pessoa)
@@ -99,7 +99,7 @@ namespace Ingressos.Controllers
           
         }
 
-        [HttpPost()]
+        [HttpDelete()]
         [ProducesResponseType(typeof(PessoasRetornoModel), 200)]
         [Route("/Pessoa/Excluir/{idPessoa}")]
         public IActionResult ExcluirPessoa(Guid idPessoa)

@@ -63,7 +63,7 @@ namespace Ingressos.Controllers
 
       
 
-        [HttpGet()]
+        [HttpPut()]
         [ProducesResponseType(typeof(List<VendaModel>), 200)]
         [Route("/Venda/Cancelar/{idVenda}")]
         public IActionResult CancelarVenda(Guid idVenda)

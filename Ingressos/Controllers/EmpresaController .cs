@@ -83,7 +83,7 @@ namespace Ingressos.Controllers
            
         }
 
-        [HttpPost()]
+        [HttpPut()]
         [ProducesResponseType(typeof(EmpresaRetornoModel), 200)]
         [Route("/Empresa/Editar/{idEmpresa}")]
         public IActionResult EditarEmpresa([FromBody] Empresa empresa)
@@ -106,7 +106,7 @@ namespace Ingressos.Controllers
             
         }
 
-        [HttpPost()]
+        [HttpDelete()]
         [ProducesResponseType(typeof(EmpresaRetornoModel), 200)]
         [Route("/Empresa/Excluir/{idEmpresa}")]
         public IActionResult ExcluirEmpresa(Guid idEmpresa)

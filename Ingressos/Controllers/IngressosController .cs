@@ -107,7 +107,7 @@ namespace Ingressos.Controllers
         }
 
         
-        [HttpPost()]
+        [HttpPut()]
         [ProducesResponseType(typeof(IngressosEventosRetornoModel), 200)]
         [Route("/Ingressos/Editar/{idEvento}")]
         public IActionResult EditarIngresso([FromBody] IngressosEventos ingressoEvento)
@@ -131,7 +131,7 @@ namespace Ingressos.Controllers
            
         }
 
-        [HttpPost()]
+        [HttpDelete()]
         [ProducesResponseType(typeof(IngressosEventosRetornoModel), 200)]
         [Route("/Ingressos/Excluir/{idIngressos}")]
         public IActionResult ExcluirEvento(Guid idIngressos)
