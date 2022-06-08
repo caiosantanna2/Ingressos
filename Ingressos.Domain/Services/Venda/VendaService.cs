@@ -36,6 +36,12 @@ namespace Ingressos.Domain.Services.VendaService
                 {
                     foreach (var ingressos in venda.Ingressos)
                     {
+                        var valid = ValidaIngressoCancelado(ingressos);
+                        if (!valid.IsSucesso)
+                        {
+                            return valid;
+                        }
+
                         ingressos.isAtivo = false;
                         ingressos.Ingresso.QuantidadeDisponivel++;
                     }
@@ -86,7 +92,7 @@ namespace Ingressos.Domain.Services.VendaService
             }
 
         }
-        private VendaRetornoModel ValidaIngresso(IngressosEventos ingressos)
+        private VendaRetornoModel ValidaIngressoCompra(IngressosEventos ingressos, IngressosVendaModel vendaModel)
         {
 
             if (!ingressos.Evento.IsAtivo)
@@ -97,12 +103,33 @@ namespace Ingressos.Domain.Services.VendaService
                     Mensagem = "Não foi possível realizar a venda, evento inativo."
                 };
             }
-            if (ingressos.QuantidadeDisponivel < ingressos.Quantidade)
+            if (ingressos.QuantidadeDisponivel < vendaModel.Quantidade)
             {
                 return new VendaRetornoModel()
                 {
                     IsSucesso = false,
-                    Mensagem = "Não foi possível realizar a venda, quantidade de ingressos tipo " + ingressos.Descricao +" do evento "+ingressos.Evento.Name+" não disponível para venda."
+                    Mensagem = "Não foi possível realizar a venda, quantidade de ingressos tipo " + ingressos.Descricao + " do evento " + ingressos.Evento.Name + " não disponível para venda."
+                };
+            }
+            return new VendaRetornoModel();
+        }
+        private VendaRetornoModel ValidaIngressoCancelado(IngressosPessoas ingressos)
+        {
+
+            if (!ingressos.isAtivo)
+            {
+                return new VendaRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Não foi possível cancelar a venda ingresso " + ingressos.Id + " inativo."
+                };
+            }
+            if (ingressos.isUtilizado)
+            {
+                return new VendaRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Não foi possível cancelar a venda ingresso " + ingressos.Id + " utilizado."
                 };
             }
             return new VendaRetornoModel();
@@ -135,7 +162,7 @@ namespace Ingressos.Domain.Services.VendaService
                         };
                     }
 
-                    var valid = ValidaIngresso(responseIngresso.IngressosEventos);
+                    var valid = ValidaIngresso(responseIngresso.IngressosEventos, ingressos);
 
                     if (!valid.IsSucesso)
                     {

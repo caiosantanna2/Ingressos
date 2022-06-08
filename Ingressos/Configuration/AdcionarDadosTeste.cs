@@ -16,7 +16,7 @@ namespace Ingressos.API.Configuration
         {
             var testePessoa = new Pessoa
             {
-                // Id = new Guid(),
+                 Id = new Guid("1dc3192d-28bb-8565-9a20-bd8ea45c5f69"),
                 Nome = "Caio",
                 Email = "caio@yahoo.com",
                 Cpf = "01274485520",
@@ -38,7 +38,7 @@ namespace Ingressos.API.Configuration
 
             var testeEmpresa = new Empresa
             {
-                // Id = new Guid(),
+                 Id = new Guid("46777593-89ce-cb35-355c-1ed1413f1d63"),
 
                 Nome = "Empresa Eventos S.A",
                 CNPJ = "11.010.100/0001-01",
@@ -59,7 +59,7 @@ namespace Ingressos.API.Configuration
 
             var testeEvento = new Evento
             {
-                // Id = new Guid(),
+                 Id = new Guid("21f8de0d-6fb4-0214-cc14-99ad91a82f45"),
                 Name = "Festa de Aniversario",
                 DataEvento = new DateTime(2022, 07, 01, 15, 00, 00),
                 Instituicao = testeEmpresa,
@@ -81,7 +81,7 @@ namespace Ingressos.API.Configuration
 
             var testeIngresso1 = new IngressosEventos
             {
-                // Id = new Guid(),
+                Id = new Guid("8dadf884-99b1-b2ad-fb03-3fc764572781"),
                 Descricao = "Pista",
                 Quantidade = 1500,
                 QuantidadeDisponivel = 1500,
@@ -95,7 +95,7 @@ namespace Ingressos.API.Configuration
 
             var testeIngresso2 = new IngressosEventos
             {
-                // Id = new Guid(),
+                Id = new Guid("20fd11f0-aecc-d28a-4057-177678bf9b6d"),
                 Descricao = "Camarote",
                 Quantidade = 500,
                 QuantidadeDisponivel = 430,
@@ -133,6 +133,7 @@ namespace Ingressos.API.Configuration
                 TransacaoPagamento = "fd9sfsd98fs8f",
                 ValorVenda = 1500,
                 Ingressos = ingressos
+
             };
 
             context.Add(testeVenda);
