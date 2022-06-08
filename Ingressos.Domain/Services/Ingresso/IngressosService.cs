@@ -16,14 +16,12 @@ namespace Ingressos.Domain.Services.Instituicao
     public class IngressoService : IIngressoService
     {
         private readonly IIngressoRepository _ingressoRepository;
-        private readonly IEventoRepository _eventoRepository;
+        private readonly IEventoService _eventoService;
 
-
-
-        public IngressoService(IIngressoRepository ingressoRepository, IEventoRepository eventoRepository)
+        public IngressoService(IIngressoRepository ingressoRepository, IEventoService eventoService)
         {
             _ingressoRepository = ingressoRepository;
-            _eventoRepository = eventoRepository;
+            _eventoService = eventoService;
         }
 
         public IngressosEventosRetornoModel AlterarIngresosEvento(IngressosEventos evento)
@@ -31,13 +29,13 @@ namespace Ingressos.Domain.Services.Instituicao
             return _ingressoRepository.AlterarIngresosEvento(evento);
         }
 
-        public IngressosEventosRetornoModel CadastrarIngressoEvento(IngressosModel ingressso)
+        public IngressosEventosRetornoModel CadastrarIngressoEvento(IngressosModel ingresssoModel)
         {
             try
             {
-                var evento = _eventoRepository.ConsultarPorId(ingressso.IdEvento);
-               
-                if (evento == null)
+                var evento = _eventoService.ConsultarPorId(ingresssoModel.IdEvento);
+
+                if (evento.Evento == null)
                 {
                     return new IngressosEventosRetornoModel()
                     {
@@ -47,8 +45,8 @@ namespace Ingressos.Domain.Services.Instituicao
 
                 }
 
-                IngressosEventos ingressosEventos = ingressso;
-                ingressosEventos.Evento = evento;
+                var ingressosEventos = (IngressosEventos)ingresssoModel;
+                ingressosEventos.Evento = evento.Evento;
 
                 return _ingressoRepository.CadastrarIngressoEvento(ingressosEventos);
             }
@@ -61,14 +59,69 @@ namespace Ingressos.Domain.Services.Instituicao
                     Mensagem = "Falha ao cadastrar ingresso"
                 };
             }
-            
+
+        }
+
+        public IngressosPessoasRetornoModel CancelarIngressoPessoa(Guid idIngressoPessoa)
+        {
+            try
+            {
+                var ingressosPessoa = _ingressoRepository.ConsultarIngressoPessoa(idIngressoPessoa);
+                if (ingressosPessoa == null)
+                {
+                    return new IngressosPessoasRetornoModel()
+                    {
+                        IsSucesso = false,
+                        Mensagem = "Ingresso nâo encontrado."
+                    };
+                }else if (ingressosPessoa.isAtivo)
+                {
+                    if (ingressosPessoa.isUtilizado)
+                    {
+                        return new IngressosPessoasRetornoModel()
+                        {
+                            IsSucesso = false,
+                            Mensagem = "Ingresso já utilizado."
+                        };
+                    }
+                    ingressosPessoa.Ingresso.QuantidadeDisponivel++;
+                    ingressosPessoa.isAtivo = false;
+                    return _ingressoRepository.EditarIngressoPessoa(ingressosPessoa);
+                }
+                else
+                {
+                    return new IngressosPessoasRetornoModel()
+                    {
+                        IsSucesso = false,
+                        Mensagem = "Ingresso já cancelado."
+                    };
+                }
+                
+
+
+            }
+            catch (Exception)
+            {
+
+                return new IngressosPessoasRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao cancelar ingresso"
+                };
+            }
+          
         }
 
         public IngressosEventosListRetornoModel ConsultaIngresosPorEvento(Guid idEvento)
         {
             try
             {
-                return _ingressoRepository.ConsultaIngresosPorEvento(idEvento);
+                var ingresso = (IngressosEventosListRetornoModel)_ingressoRepository.ConsultaIngresosPorEvento(idEvento);
+                if (ingresso.IngressosEventos == null)
+                {
+                    ingresso.Mensagem = "Ingressos não encontrados.";
+                }
+                return ingresso;
             }
             catch (Exception)
             {
@@ -80,13 +133,21 @@ namespace Ingressos.Domain.Services.Instituicao
                 };
             }
         }
-        
+
 
         public IngressosEventosRetornoModel ConsultaIngresosPorId(Guid idIngresso)
         {
             try
             {
-                return _ingressoRepository.ConsultaIngresosPorId(idIngresso);
+                var ingresso = (IngressosEventosRetornoModel)_ingressoRepository.ConsultaIngresosPorId(idIngresso);
+                if (ingresso.IngressosEventos == null)
+                {
+                    ingresso.Mensagem = "Ingresso não encontrado.";
+                }
+
+                return ingresso;
+
+
             }
             catch (Exception)
             {
@@ -94,21 +155,51 @@ namespace Ingressos.Domain.Services.Instituicao
                 return new IngressosEventosRetornoModel()
                 {
                     IsSucesso = false,
-                    Mensagem = "Falha ao cadastrar ingresso"
+                    Mensagem = "Falha ao cadastrar ingresso."
                 };
             }
-           
+
+        }
+
+        public IngressosPessoasRetornoModel ConsultarIngressoPessoa(Guid idIngressoPessoa)
+        {
+            try
+            {
+                var ingresso = (IngressosPessoasRetornoModel)_ingressoRepository.ConsultarIngressoPessoa(idIngressoPessoa);
+                if (ingresso.IngressosPessoas == null)
+                {
+                    ingresso.Mensagem = "Ingresso não encontrado.";
+                }
+                return ingresso;
+
+            }
+            catch (Exception)
+            {
+
+                return new IngressosPessoasRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao consultar ingresso."
+                };
+            }
+
         }
 
         public IngressosPessoasListRetornoModel ConsultarIngressosPessoa(Guid idPessoa)
         {
             try
             {
-                return _ingressoRepository.ConsultarIngressosPessoa(idPessoa);
+                var ingresso = (IngressosPessoasListRetornoModel)_ingressoRepository.ConsultarIngressosPessoa(idPessoa);
+
+                if (ingresso.IngressosPessoas.Count == 0)
+                {
+                    ingresso.Mensagem = "Pessoa sem ingressos cadastrados.";
+                }
+                return ingresso;
+
             }
             catch (Exception)
             {
-
 
                 return new IngressosPessoasListRetornoModel()
                 {
@@ -116,14 +207,20 @@ namespace Ingressos.Domain.Services.Instituicao
                     Mensagem = "Falha ao cadastrar ingresso"
                 };
             }
-           
+
         }
 
         public IngressosPessoasListRetornoModel ConsultarIngressosPessoaEvento(Guid idPessoa, Guid idEvento)
         {
             try
             {
-                return _ingressoRepository.ConsultarIngressosPessoaEvento(idPessoa, idEvento);
+                var ingresso = (IngressosPessoasListRetornoModel)_ingressoRepository.ConsultarIngressosPessoaEvento(idPessoa, idEvento);
+                if (ingresso.IngressosPessoas.Count == 0)
+                {
+                    ingresso.Mensagem = "Pessoa não posssui ingresso para o evento informado.";
+                }
+                return ingresso;
+                 
             }
             catch (Exception)
             {
@@ -134,7 +231,7 @@ namespace Ingressos.Domain.Services.Instituicao
                     Mensagem = "Falha ao cadastrar ingresso"
                 };
             }
-           
+
         }
 
         public IngressosEventosRetornoModel ExcluirIngressoEvento(Guid idEvento)
@@ -156,7 +253,54 @@ namespace Ingressos.Domain.Services.Instituicao
                 };
 
             }
-           
+
+        }
+
+        public IngressosPessoasRetornoModel UtilizarIngressoPessoa(Guid idIngressoPessoa)
+        {
+            try
+            {
+                var ingressosPessoa = _ingressoRepository.ConsultarIngressoPessoa(idIngressoPessoa);
+                if (ingressosPessoa == null)
+                {
+                    return new IngressosPessoasRetornoModel()
+                    {
+                        IsSucesso = false,
+                        Mensagem = "Ingresso nâo encontrado."
+                    };
+                }else if (ingressosPessoa.isAtivo)
+                {
+                    if (ingressosPessoa.isUtilizado)
+                    {
+                        return new IngressosPessoasRetornoModel()
+                        {
+                            IsSucesso = false,
+                            Mensagem = "Ingresso já utilizado."
+                        };
+                    }
+
+                    ingressosPessoa.isUtilizado = true;
+                    return _ingressoRepository.EditarIngressoPessoa(ingressosPessoa);
+                }
+                else
+                {
+                    return new IngressosPessoasRetornoModel()
+                    {
+                        IsSucesso = false,
+                        Mensagem = "Ingresso cancelado."
+                    };
+                }
+                
+            }
+            catch (Exception)
+            {
+
+                return new IngressosPessoasRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao utilizar ingresso."
+                };
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Ingressos.Controllers
         [Route("/Venda/Consultar/{idVenda}")]
         public IActionResult ConsultarVenda(Guid idVenda)
         {
-            if (idVenda == null || idVenda == Guid.Empty)
+            if (idVenda == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -53,7 +53,7 @@ namespace Ingressos.Controllers
                 return Ok(response);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 return StatusCode(500, "Falha ao consultar venda");
@@ -68,7 +68,7 @@ namespace Ingressos.Controllers
         [Route("/Venda/Cancelar/{idVenda}")]
         public IActionResult CancelarVenda(Guid idVenda)
         {
-            if (idVenda == null || idVenda == Guid.Empty)
+            if (idVenda == Guid.Empty)
             {
                 return BadRequest();
             }
@@ -78,7 +78,7 @@ namespace Ingressos.Controllers
                 var response = _ingresssoVenda.CancelarVenda(idVenda);
                 return Ok(response);
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 return StatusCode(500, "Falha ao cancelar venda");

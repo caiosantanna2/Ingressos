@@ -1,5 +1,6 @@
-﻿using Ingressos.Domain.Entities.EventoIngresso;
+﻿using Ingressos.Domain.Entities.EventoEntites;
 using Ingressos.Domain.Interfaces.Services;
+using Ingressos.Domain.Model.Entrada;
 using Ingressos.Domain.Model.Retorno;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -59,7 +60,7 @@ namespace Ingressos.Controllers
         [HttpPost()]
         [ProducesResponseType(typeof(EventoRetornoModel), 200)]
         [Route("/Evento/Cadastrar/")]
-        public IActionResult CadastrarEvento([FromBody] Evento evento)
+        public IActionResult CadastrarEvento([FromBody] EventoModel evento)
         {
             if (evento == null)
             {
@@ -80,7 +81,7 @@ namespace Ingressos.Controllers
 
         [HttpPut()]
         [ProducesResponseType(typeof(EventoRetornoModel), 200)]
-        [Route("/Evento/Editar/{idEvento}")]
+        [Route("/Evento/Editar/")]
         public IActionResult EditarEvento([FromBody] Evento evento)
         {
             if (evento == null)

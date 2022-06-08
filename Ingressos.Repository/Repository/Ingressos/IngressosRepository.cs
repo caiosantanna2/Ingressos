@@ -1,6 +1,4 @@
-﻿using Ingressos.Domain.Interfaces.Services;
-
-using Ingressos.Domain.Entities.Instituicao;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +8,7 @@ using Ingressos.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Ingressos.Domain.Interfaces.Repository;
 using Ingressos.Domain.Entities.EventoIngresso;
+using Ingressos.Domain.Entities.EventoEntites;
 
 namespace Ingressos.Data.Repository.Instituicao
 {
@@ -53,6 +52,14 @@ namespace Ingressos.Data.Repository.Instituicao
             return ingressos;
         }
 
+        public IngressosPessoas EditarIngressoPessoa(IngressosPessoas ingressoPessoa)
+        {
+            _context.Entry(ingressoPessoa).State = EntityState.Modified;
+            _context.Update(ingressoPessoa);
+            _context.SaveChanges();
+            return ingressoPessoa;
+        }
+
         public List<IngressosEventos> ConsultaIngresosPorEvento(Guid idEvento)
         {
             var response = _context.Ingressos.Include(x => x.Evento).ThenInclude(x => x.Instituicao).ThenInclude(x => x.Endereco).
@@ -61,8 +68,6 @@ namespace Ingressos.Data.Repository.Instituicao
 
             return response;
         }
-
-
 
 
 
@@ -75,13 +80,17 @@ namespace Ingressos.Data.Repository.Instituicao
 
         }
 
+        public IngressosPessoas ConsultarIngressoPessoa(Guid idIngressoPessoa)
+        {
+            var response = _context.IngressosPessoas.Include(x=> x.Ingresso).ThenInclude(x=>x.Evento).
+                                                     Include(x => x.Pessoa).FirstOrDefault(x => x.Id == idIngressoPessoa);
+            return response;
+        }
+
         public List<IngressosPessoas> ConsultarIngressosPessoa(Guid idPessoa)
         {
             var response = _context.IngressosPessoas.Include(x => x.Ingresso).ThenInclude(x => x.Evento).
                             Include(x => x.Pessoa).Where(x => x.Pessoa.Id == idPessoa).ToList();
-
-            var response1 = _context.IngressosPessoas.Include(x => x.Ingresso).ThenInclude(x => x.Evento).
-                           Include(x => x.Pessoa).ToList();
 
             return response;
         }
@@ -105,7 +114,7 @@ namespace Ingressos.Data.Repository.Instituicao
             }
             else
             {
-                throw new Exception("Id informado não encotrado!");
+                return "Id informado não encotrado!";
             }
         }
     }

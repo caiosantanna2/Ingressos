@@ -85,7 +85,7 @@ namespace Ingressos.Controllers
 
         [HttpPut()]
         [ProducesResponseType(typeof(EmpresaRetornoModel), 200)]
-        [Route("/Empresa/Editar/{idEmpresa}")]
+        [Route("/Empresa/Editar/")]
         public IActionResult EditarEmpresa([FromBody] Empresa empresa)
         {
             if(empresa == null)

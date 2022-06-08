@@ -7,14 +7,14 @@ namespace Ingressos.Domain.Model.Retorno
     {
        
         public string Mensagem { get; set; }
-        public bool IsSucesso { get; set; }
+        public bool IsSucesso { get; set; } = true;
         public List<Empresa> Empresa { get; set; }
 
         public static implicit operator EmpresaListRetornoModel(List<Empresa> empresa)
         {
             return new EmpresaListRetornoModel()
             {
-                IsSucesso = true,
+               
                 Mensagem = "Sucesso",
                 Empresa = empresa
             };

@@ -1,21 +1,18 @@
-﻿using Ingressos.Domain.Entities.EventoIngresso;
-
+﻿using Ingressos.Domain.Entities.EventoEntites;
 
 namespace Ingressos.Domain.Model.Retorno
 {
     public class EventoRetornoModel
     {
        
-        public string Mensagem { get; set; }
-        public bool IsSucesso { get; set; }
-        public Evento Evento { get; set; }
+        public string Mensagem { get; set; } = "Sucesso";
+        public bool IsSucesso { get; set; } = true;
+        public Evento Evento { get; set; } 
 
         public static implicit operator EventoRetornoModel(Evento evento)
         {
             return new EventoRetornoModel()
             {
-                IsSucesso = true,
-                Mensagem = "Sucesso",
                 Evento = evento
             };
 

@@ -1,5 +1,5 @@
 ﻿
-using Ingressos.Domain.Entities.EventoIngresso;
+using Ingressos.Domain.Entities.EventoEntites;
 using System;
 using System.Collections.Generic;
 using System.Linq;

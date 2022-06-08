@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 
 using Ingressos.Domain.Entities.Instituicao;
 using Ingressos.Domain.Interfaces.Repository;
-using Ingressos.Domain.Entities.EventoIngresso;
 using Ingressos.Domain.Model.Retorno;
+using Ingressos.Domain.Entities.EventoEntites;
+using Ingressos.Domain.Model.Entrada;
 
 namespace Ingressos.Domain.Services.EventoServices
 {
     public class EventoService : IEventoService
     {
         private readonly IEventoRepository _eventoRepository;
-        public EventoService(IEventoRepository eventoRepository)
+        private readonly IEmpresaService _empresaService;
+        public EventoService(IEventoRepository eventoRepository, IEmpresaService empresaService)
         {
             _eventoRepository = eventoRepository;
+            _empresaService = empresaService;
         }
 
         public EventoRetornoModel AlterarEvento(Evento evento)
@@ -38,10 +41,22 @@ namespace Ingressos.Domain.Services.EventoServices
             }
         }
 
-        public EventoRetornoModel CadastrarEvento(Evento evento)
+        public EventoRetornoModel CadastrarEvento(EventoModel eventoModel)
         {
             try
             {
+                var empresa = _empresaService.ConsultarPorId(eventoModel.IdEmpresa);
+                if (empresa.Empresa == null)
+                {
+                    return new EventoRetornoModel()
+                    {
+                        IsSucesso = false,
+                        Mensagem = "Não foi possível cadastrar o evento, empresa não encontrada."
+                    };
+
+                }
+                var evento = (Evento)eventoModel;
+                evento.Instituicao = empresa.Empresa;
 
                 return _eventoRepository.CadastrarEvento(evento);
             }
@@ -60,7 +75,14 @@ namespace Ingressos.Domain.Services.EventoServices
         {
             try
             {
-                return _eventoRepository.ConsultarEvento();
+                var evento = (EventoListRetornoModel)_eventoRepository.ConsultarEvento();
+                if (evento.Evento == null)
+                {
+                    evento.Mensagem = "Evento nao encontrado.";
+                }
+
+                return evento;
+
 
             }
             catch (Exception)
@@ -79,7 +101,13 @@ namespace Ingressos.Domain.Services.EventoServices
         {
             try
             {
-                return _eventoRepository.ConsultarPorId(idEvento);
+                var evento = (EventoRetornoModel)_eventoRepository.ConsultarPorId(idEvento);
+                if (evento.Evento == null)
+                {
+                    evento.Mensagem = "Evento nao encontrado.";
+                }
+
+                return evento;
 
             }
             catch (Exception)
@@ -101,7 +129,7 @@ namespace Ingressos.Domain.Services.EventoServices
                 {
                     Mensagem = _eventoRepository.ExcluirEvento(idEvento)
                 };
-              
+
             }
             catch (Exception)
             {

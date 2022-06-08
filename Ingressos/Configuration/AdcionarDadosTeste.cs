@@ -1,6 +1,7 @@
 ﻿using Ingressos.Data.Context;
 using Ingressos.Domain.Entities.Cliente;
 using Ingressos.Domain.Entities.Enderecos;
+using Ingressos.Domain.Entities.EventoEntites;
 using Ingressos.Domain.Entities.EventoIngresso;
 using Ingressos.Domain.Entities.Instituicao;
 using Ingressos.Domain.Entities.Vendas;
@@ -62,6 +63,7 @@ namespace Ingressos.API.Configuration
                 Name = "Festa de Aniversario",
                 DataEvento = new DateTime(2022, 07, 01, 15, 00, 00),
                 Instituicao = testeEmpresa,
+                IsAtivo = true,
                 Endereco = new Endereco
                 {
                     Id = new Guid(),
@@ -81,10 +83,11 @@ namespace Ingressos.API.Configuration
             {
                 // Id = new Guid(),
                 Descricao = "Pista",
-                Quantidade = 500,
+                Quantidade = 1500,
+                QuantidadeDisponivel = 1500,
                 Valor = 50.00,
                 Evento = testeEvento
-               
+
             };
 
             context.Ingressos.Add(testeIngresso1);
@@ -95,6 +98,7 @@ namespace Ingressos.API.Configuration
                 // Id = new Guid(),
                 Descricao = "Camarote",
                 Quantidade = 500,
+                QuantidadeDisponivel = 430,
                 Valor = 150.00,
                 Evento = testeEvento
 
@@ -102,12 +106,12 @@ namespace Ingressos.API.Configuration
             context.Ingressos.Add(testeIngresso2);
 
             var ingressos = new List<IngressosPessoas>();
-           
+
             var ingresso1 = new IngressosPessoas
             {
                 Ingresso = testeIngresso1,
                 Pessoa = testePessoa,
-                
+
 
             };
 
@@ -118,6 +122,7 @@ namespace Ingressos.API.Configuration
 
 
             };
+
             ingressos.Add(ingresso1);
             ingressos.Add(ingresso2);
 
@@ -132,9 +137,9 @@ namespace Ingressos.API.Configuration
 
             context.Add(testeVenda);
 
-           
 
-           
+
+
             context.SaveChanges();
         }
     }

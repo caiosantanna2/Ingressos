@@ -14,5 +14,6 @@ namespace Ingressos.Domain.Model.Entrada
       
         public Guid IngressoId { get; set; }    
         public int Quantidade { get; set; }
+        public double ValorVendido { get; set; }
     }
 }

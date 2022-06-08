@@ -14,10 +14,10 @@ namespace Ingressos.Domain.Services.Instituicao
     public class EmpresaService : IEmpresaService
     {
         private readonly IEmpresaRepository _empresaRepository;
-        
+
         public EmpresaService(IEmpresaRepository empresaRepository)
         {
-            _empresaRepository = empresaRepository;       
+            _empresaRepository = empresaRepository;
         }
 
         public EmpresaRetornoModel AlterarEmpresa(Empresa empresa)
@@ -35,7 +35,7 @@ namespace Ingressos.Domain.Services.Instituicao
                 };
 
             }
-           
+
         }
 
         public EmpresaRetornoModel CadastrarEmpresa(Empresa empresa)
@@ -52,7 +52,7 @@ namespace Ingressos.Domain.Services.Instituicao
                     IsSucesso = false,
                     Mensagem = "Falha ao cadastrar empresa"
                 };
-              
+
             }
 
         }
@@ -61,7 +61,15 @@ namespace Ingressos.Domain.Services.Instituicao
         {
             try
             {
-                return _empresaRepository.ConsultarEmpresas();
+                var empresa = (EmpresaListRetornoModel)_empresaRepository.ConsultarEmpresas();
+                if (empresa.Empresa == null)
+                {
+                    empresa.Mensagem = "Empresas nao cadastradas.";
+                }
+
+                return empresa;
+
+
             }
             catch (Exception)
             {
@@ -71,16 +79,23 @@ namespace Ingressos.Domain.Services.Instituicao
                     IsSucesso = false,
                     Mensagem = "Falha ao consultar empresas"
                 };
-              
+
             }
-          
+
         }
 
         public EmpresaRetornoModel ConsultarPorId(Guid IdEmpresa)
         {
             try
             {
-                return _empresaRepository.ConsultarPorId(IdEmpresa);
+                var empresa = (EmpresaRetornoModel)_empresaRepository.ConsultarPorId(IdEmpresa);
+                if (empresa.Empresa == null)
+                {
+                    empresa.Mensagem = "Empresa nao encontrada.";
+                }
+
+                return empresa;
+              
             }
             catch (Exception)
             {
@@ -90,9 +105,9 @@ namespace Ingressos.Domain.Services.Instituicao
                     Mensagem = "Falha ao consultar empresa"
                 };
                 //Capturar log
-               
+
             }
-        
+
         }
 
         public EmpresaRetornoModel ExcluirEmpresa(Guid IdEmpresa)
@@ -112,9 +127,9 @@ namespace Ingressos.Domain.Services.Instituicao
                     Mensagem = "Falha ao consultar empresa"
                 };
                 //Capturar log
-              
+
             }
-         
+
         }
     }
 }

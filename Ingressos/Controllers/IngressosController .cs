@@ -38,6 +38,29 @@ namespace Ingressos.Controllers
             }
            
         }
+
+        [HttpGet()]
+        [ProducesResponseType(typeof(IngressosEventosListRetornoModel), 200)]
+        [Route("/Ingressos/Consultar/Ingresso/{idIngressoPessoa}")]
+        public IActionResult ConsultarIngressoPorPessoa(Guid idIngressoPessoa)
+        {
+            if (idIngressoPessoa == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_ingresssoService.ConsultarIngressoPessoa(idIngressoPessoa));
+            }
+            catch (Exception)
+            {
+                //log
+                return StatusCode(500, "Falha ao consultar ingressos");
+
+            }
+
+        }
         [HttpGet()]
         [ProducesResponseType(typeof(IngressosEventosListRetornoModel), 200)]
         [Route("/Ingressos/Consultar/Pessoa/{idPessoa}/Evento/{idEvento}")]
@@ -105,11 +128,55 @@ namespace Ingressos.Controllers
 
           
         }
-
-        
         [HttpPut()]
         [ProducesResponseType(typeof(IngressosEventosRetornoModel), 200)]
-        [Route("/Ingressos/Editar/{idEvento}")]
+        [Route("/Ingressos/Cancelar/Ingresso/{idIngressoPessoa}")]
+        public IActionResult CancelarIngresso(Guid idIngressoPessoa)
+        {
+
+            if (idIngressoPessoa == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_ingresssoService.CancelarIngressoPessoa(idIngressoPessoa));
+            }
+            catch (Exception)
+            {
+
+                //log
+                return StatusCode(500, "Falha ao cancelar ingresso");
+            }
+
+        }
+        [HttpPut()]
+        [ProducesResponseType(typeof(IngressosEventosRetornoModel), 200)]
+        [Route("/Ingressos/Utilizar/Ingresso/{idIngressoPessoa}")]
+        public IActionResult UtilizarIngresso(Guid idIngressoPessoa)
+        {
+
+            if (idIngressoPessoa == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                return Ok(_ingresssoService.UtilizarIngressoPessoa(idIngressoPessoa));
+            }
+            catch (Exception)
+            {
+
+                //log
+                return StatusCode(500, "Falha ao cancelar ingresso");
+            }
+
+        }
+        [HttpPut()]
+        [ProducesResponseType(typeof(IngressosEventosRetornoModel), 200)]
+        [Route("/Ingressos/Editar/")]
         public IActionResult EditarIngresso([FromBody] IngressosEventos ingressoEvento)
         {
 

@@ -6,16 +6,14 @@ namespace Ingressos.Domain.Model.Retorno
     public class VendaRetornoModel
     {
        
-        public string Mensagem { get; set; }
-        public bool IsSucesso { get; set; }
+        public string Mensagem { get; set; } = "Sucesso";
+        public bool IsSucesso { get; set; } = true;
         public Venda Venda { get; set; }
 
         public static implicit operator VendaRetornoModel(Venda venda)
         {
             return new VendaRetornoModel()
             {
-                IsSucesso = true,
-                Mensagem = "Sucesso",
                 Venda = venda
             };
 

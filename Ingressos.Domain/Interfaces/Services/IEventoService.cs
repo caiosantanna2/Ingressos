@@ -1,5 +1,6 @@
 ﻿using Ingressos.Domain.Entities.Cliente;
-using Ingressos.Domain.Entities.EventoIngresso;
+using Ingressos.Domain.Entities.EventoEntites;
+using Ingressos.Domain.Model.Entrada;
 using Ingressos.Domain.Model.Retorno;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Ingressos.Domain.Interfaces.Services
     public interface IEventoService
     {
         EventoListRetornoModel ConsultarEventos();
-        EventoRetornoModel CadastrarEvento(Evento evento);
+        EventoRetornoModel CadastrarEvento(EventoModel evento);
         EventoRetornoModel ConsultarPorId(Guid idEvento);
         EventoRetornoModel AlterarEvento(Evento evento);
         EventoRetornoModel ExcluirEvento(Guid idEvento);

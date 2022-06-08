@@ -34,6 +34,11 @@ namespace Ingressos.Domain.Services.VendaService
                 var venda = _vendaRepository.ConsultarVenda(idVenda);
                 if (venda != null)
                 {
+                    foreach (var ingressos in venda.Ingressos)
+                    {
+                        ingressos.isAtivo = false;
+                        ingressos.Ingresso.QuantidadeDisponivel++;
+                    }
                     venda.IsAtiva = false;
                     return _vendaRepository.CancelarVenda(venda);
                 }
@@ -55,7 +60,7 @@ namespace Ingressos.Domain.Services.VendaService
                     IsSucesso = false,
                     Mensagem = "Falha ao cancelar venda"
                 };
-                
+
             }
 
         }
@@ -64,7 +69,12 @@ namespace Ingressos.Domain.Services.VendaService
         {
             try
             {
-                return _vendaRepository.ConsultarVenda(idVenda);
+                var venda = (VendaRetornoModel)_vendaRepository.ConsultarVenda(idVenda);
+                if (venda == null)
+                {
+                    venda.Mensagem = "Pessoa nao encontrada.";
+                }
+                return venda;
             }
             catch (Exception)
             {
@@ -76,7 +86,27 @@ namespace Ingressos.Domain.Services.VendaService
             }
 
         }
+        private VendaRetornoModel ValidaIngresso(IngressosEventos ingressos)
+        {
 
+            if (!ingressos.Evento.IsAtivo)
+            {
+                return new VendaRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Não foi possível realizar a venda, evento inativo."
+                };
+            }
+            if (ingressos.QuantidadeDisponivel < ingressos.Quantidade)
+            {
+                return new VendaRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Não foi possível realizar a venda, quantidade de ingressos tipo " + ingressos.Descricao +" do evento "+ingressos.Evento.Name+" não disponível para venda."
+                };
+            }
+            return new VendaRetornoModel();
+        }
         public VendaRetornoModel RealizaVenda(VendaModel vendaModel)
         {
             try
@@ -84,7 +114,7 @@ namespace Ingressos.Domain.Services.VendaService
                 var ingressosPessoa = new List<IngressosPessoas>();
                 Venda venda = vendaModel;
                 var responsePessoa = _pessoService.ConsultarPorId(vendaModel.PessoaId);
-                if (responsePessoa == null)
+                if (responsePessoa.Pessoa == null)
                 {
                     return new VendaRetornoModel()
                     {
@@ -96,7 +126,7 @@ namespace Ingressos.Domain.Services.VendaService
                 foreach (var ingressos in vendaModel.Ingressos)
                 {
                     var responseIngresso = _ingressosService.ConsultaIngresosPorId(ingressos.IngressoId);
-                    if (responseIngresso == null)
+                    if (responseIngresso.IngressosEventos == null)
                     {
                         return new VendaRetornoModel()
                         {
@@ -104,15 +134,26 @@ namespace Ingressos.Domain.Services.VendaService
                             Mensagem = "Não foi possível realizar a venda, ingresso não encontrada."
                         };
                     }
+
+                    var valid = ValidaIngresso(responseIngresso.IngressosEventos);
+
+                    if (!valid.IsSucesso)
+                    {
+                        return valid;
+                    }
                     for (int qtd = 0; qtd < ingressos.Quantidade; qtd++)
                     {
                         ingressosPessoa.Add(new IngressosPessoas()
                         {
                             Ingresso = responseIngresso.IngressosEventos,
-                            Pessoa = responsePessoa.Pessoa
-                        });
+                            Pessoa = responsePessoa.Pessoa,
+                            ValorVendido = ingressos.ValorVendido
 
+                        });
+                        venda.ValorVenda += ingressos.ValorVendido;
                     }
+
+                    responseIngresso.IngressosEventos.QuantidadeDisponivel -= ingressos.Quantidade;
 
                 }
 

@@ -6,7 +6,7 @@ namespace Ingressos.Domain.Model.Retorno
     public class EmpresaRetornoModel
     {
 
-        public string Mensagem { get; set; }
+        public string Mensagem { get; set; } = "Sucesso";
         public bool IsSucesso { get; set; } = true;
         public Empresa Empresa { get; set; }
 
@@ -14,8 +14,6 @@ namespace Ingressos.Domain.Model.Retorno
         {
             return new EmpresaRetornoModel()
             {
-                IsSucesso = true,
-                Mensagem = "Sucesso",
                 Empresa = empresa
             };
           

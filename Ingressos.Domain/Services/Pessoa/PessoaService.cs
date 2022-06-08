@@ -60,8 +60,13 @@ namespace Ingressos.Domain.Services.Cliente
         {
             try
             {
-                return _pessoaRepository.ConsultarPessoas();
-
+                var pessoa = (PessoasListRetornoModel)_pessoaRepository.ConsultarPessoas();
+                if (pessoa.Pessoas == null)
+                {
+                    pessoa.Mensagem = "Pessoa nao encontrada.";
+                }
+                return pessoa;
+                
             }
             catch (Exception)
             {
@@ -74,12 +79,17 @@ namespace Ingressos.Domain.Services.Cliente
             }
         }
 
-        public PessoasRetornoModel ConsultarPorId(Guid pessoa)
+        public PessoasRetornoModel ConsultarPorId(Guid pessoaId)
         {
             try
             {
-                return _pessoaRepository.ConsultarPorId(pessoa);
-
+                var pessoa = (PessoasRetornoModel)_pessoaRepository.ConsultarPorId(pessoaId);
+                if(pessoa.Pessoa == null)
+                {
+                    pessoa.Mensagem = "Pessoa nao encontrada.";
+                }
+                return pessoa;
+                
             }
             catch (Exception)
             {

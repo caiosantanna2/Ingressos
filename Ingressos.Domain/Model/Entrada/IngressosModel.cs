@@ -10,7 +10,6 @@ namespace Ingressos.Domain.Model.Entrada
 {
     public class IngressosModel
     {
-        private readonly IEventoService _eventoService;
        
         public string Descricao { get; set; }
         public double Valor { get; set; }
@@ -19,15 +18,13 @@ namespace Ingressos.Domain.Model.Entrada
 
         public static implicit operator IngressosEventos(IngressosModel ingressos)
         {
-            IngressosEventos ingressosEventos = new IngressosEventos();
-            ingressosEventos.Descricao = ingressos.Descricao;
-            ingressosEventos.Quantidade = ingressos.Quantidade;
-            ingressosEventos.Valor = ingressos.Valor;
-   
-
-           
-            return ingressosEventos;
+            return new IngressosEventos()
+            {
+                Descricao = ingressos.Descricao,
+                Valor = ingressos.Valor,
+                Quantidade = ingressos.Quantidade,
+            };
         }
     }
-   
+
 }

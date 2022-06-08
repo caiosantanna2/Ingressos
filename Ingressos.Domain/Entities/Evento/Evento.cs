@@ -1,13 +1,9 @@
-﻿
-using Ingressos.Domain.Entities.Enderecos;
+﻿using Ingressos.Domain.Entities.Enderecos;
 using Ingressos.Domain.Entities.Instituicao;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Ingressos.Domain.Entities.EventoIngresso
+
+namespace Ingressos.Domain.Entities.EventoEntites
 {
     public class Evento
     {
@@ -17,6 +13,6 @@ namespace Ingressos.Domain.Entities.EventoIngresso
         public DateTime DataEvento { get; set; }
         public Empresa Instituicao { get; set; }
         public bool IsAtivo { get; set; }
-       
+
     }
 }

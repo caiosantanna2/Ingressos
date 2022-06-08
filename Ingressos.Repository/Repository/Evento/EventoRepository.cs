@@ -1,15 +1,14 @@
-﻿using Ingressos.Domain.Interfaces.Services;
+﻿
 
-using Ingressos.Domain.Entities.Instituicao;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Ingressos.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Ingressos.Domain.Interfaces.Repository;
-using Ingressos.Domain.Entities.EventoIngresso;
+using Ingressos.Domain.Entities.EventoEntites;
 
 namespace Ingressos.Data.Repository.Instituicao
 {
@@ -65,7 +64,7 @@ namespace Ingressos.Data.Repository.Instituicao
             }
             else
             {
-                throw new Exception("Id informado não encotrado!");
+                return "Id informado não encotrado!";
             }
         }
     }

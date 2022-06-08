@@ -79,7 +79,7 @@ namespace Ingressos.Controllers
 
         [HttpPut()]
         [ProducesResponseType(typeof(PessoasRetornoModel), 200)]
-        [Route("/Pessoa/Editar/{idPessoa}")]
+        [Route("/Pessoa/Editar/")]
         public IActionResult EditarPessoa([FromBody] Pessoa pessoa)
         {
             if (pessoa == null)

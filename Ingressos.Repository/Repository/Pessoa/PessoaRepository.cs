@@ -63,7 +63,7 @@ namespace Ingressos.Data.Repository.Cliente
             }
             else
             {
-                 throw new Exception("Id informado não encotrado!");
+                return "Id informado não encotrado!";
             }
             
         }

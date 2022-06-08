@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace Ingressos.Domain.Model.Retorno
 {
-    public class IngressosPessoasListRetornoModel
+    public class IngressosPessoasRetornoModel
     {
 
         public string Mensagem { get; set; } = "Sucesso";
         public bool IsSucesso { get; set; } = true;
-        public List<IngressosPessoas> IngressosPessoas { get; set; }
+        public IngressosPessoas IngressosPessoas { get; set; }
 
-        public static implicit operator IngressosPessoasListRetornoModel(List<IngressosPessoas> ingressos)
+        public static implicit operator IngressosPessoasRetornoModel(IngressosPessoas ingressos)
         {
-            return new IngressosPessoasListRetornoModel()
+            return new IngressosPessoasRetornoModel()
             {
                 IngressosPessoas = ingressos
             };
