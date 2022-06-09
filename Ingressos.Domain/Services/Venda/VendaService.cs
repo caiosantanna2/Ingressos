@@ -28,7 +28,6 @@ namespace Ingressos.Domain.Services.VendaService
 
         public VendaRetornoModel CancelarVenda(Guid idVenda)
         {
-            VendaRetornoModel empresaRetornoModel = new VendaRetornoModel();
             try
             {
                 var venda = _vendaRepository.ConsultarVenda(idVenda);
@@ -92,6 +91,72 @@ namespace Ingressos.Domain.Services.VendaService
             }
 
         }
+        
+        public VendaRetornoModel RealizaVenda(VendaModel vendaModel)
+        {
+            try
+            {
+                var ingressosPessoa = new List<IngressosPessoas>();
+                Venda venda = vendaModel;
+                var responsePessoa = _pessoService.ConsultarPorId(vendaModel.PessoaId);
+                if (responsePessoa.Pessoa == null)
+                {
+                    return new VendaRetornoModel()
+                    {
+                        IsSucesso = false,
+                        Mensagem = "Não foi possível realizar a venda, pessoa não encontrada.",
+                    };
+                }
+
+                foreach (var ingressos in vendaModel.Ingressos)
+                {
+                    var responseIngresso = _ingressosService.ConsultaIngresosPorId(ingressos.IngressoId);
+                    if (responseIngresso.IngressosEventos == null)
+                    {
+                        return new VendaRetornoModel()
+                        {
+                            IsSucesso = false,
+                            Mensagem = "Não foi possível realizar a venda, ingresso não encontrada."
+                        };
+                    }
+
+                    var valid = ValidaIngressoCompra(responseIngresso.IngressosEventos, ingressos);
+
+                    if (!valid.IsSucesso)
+                    {
+                        return valid;
+                    }
+                    for (int qtd = 0; qtd < ingressos.Quantidade; qtd++)
+                    {
+                        ingressosPessoa.Add(new IngressosPessoas()
+                        {
+                            Ingresso = responseIngresso.IngressosEventos,
+                            Pessoa = responsePessoa.Pessoa,
+                            ValorVendido = ingressos.ValorVendido
+
+                        });
+                        venda.ValorVenda += ingressos.ValorVendido;
+                    }
+
+                    responseIngresso.IngressosEventos.QuantidadeDisponivel -= ingressos.Quantidade;
+
+                }
+
+                venda.Ingressos = ingressosPessoa;
+
+                return _vendaRepository.RealizaVenda(venda);
+            }
+            catch (Exception)
+            {
+
+                return new VendaRetornoModel()
+                {
+                    IsSucesso = false,
+                    Mensagem = "Falha ao realizar venda"
+                };
+            }
+
+        }
         private VendaRetornoModel ValidaIngressoCompra(IngressosEventos ingressos, IngressosVendaModel vendaModel)
         {
 
@@ -133,71 +198,6 @@ namespace Ingressos.Domain.Services.VendaService
                 };
             }
             return new VendaRetornoModel();
-        }
-        public VendaRetornoModel RealizaVenda(VendaModel vendaModel)
-        {
-            try
-            {
-                var ingressosPessoa = new List<IngressosPessoas>();
-                Venda venda = vendaModel;
-                var responsePessoa = _pessoService.ConsultarPorId(vendaModel.PessoaId);
-                if (responsePessoa.Pessoa == null)
-                {
-                    return new VendaRetornoModel()
-                    {
-                        IsSucesso = false,
-                        Mensagem = "Não foi possível realizar a venda, pessoa não encontrada.",
-                    };
-                }
-
-                foreach (var ingressos in vendaModel.Ingressos)
-                {
-                    var responseIngresso = _ingressosService.ConsultaIngresosPorId(ingressos.IngressoId);
-                    if (responseIngresso.IngressosEventos == null)
-                    {
-                        return new VendaRetornoModel()
-                        {
-                            IsSucesso = false,
-                            Mensagem = "Não foi possível realizar a venda, ingresso não encontrada."
-                        };
-                    }
-
-                    var valid = ValidaIngresso(responseIngresso.IngressosEventos, ingressos);
-
-                    if (!valid.IsSucesso)
-                    {
-                        return valid;
-                    }
-                    for (int qtd = 0; qtd < ingressos.Quantidade; qtd++)
-                    {
-                        ingressosPessoa.Add(new IngressosPessoas()
-                        {
-                            Ingresso = responseIngresso.IngressosEventos,
-                            Pessoa = responsePessoa.Pessoa,
-                            ValorVendido = ingressos.ValorVendido
-
-                        });
-                        venda.ValorVenda += ingressos.ValorVendido;
-                    }
-
-                    responseIngresso.IngressosEventos.QuantidadeDisponivel -= ingressos.Quantidade;
-
-                }
-
-                venda.Ingressos = ingressosPessoa;
-
-                return _vendaRepository.RealizaVenda(venda);
-            }
-            catch (Exception)
-            {
-
-                return new VendaRetornoModel()
-                {
-                    IsSucesso = false,
-                    Mensagem = "Falha ao realizar venda"
-                };
-            }
-
         }
     }
 }

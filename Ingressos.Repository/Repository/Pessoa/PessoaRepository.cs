@@ -34,6 +34,7 @@ namespace Ingressos.Data.Repository.Cliente
         {
             _context.Add(pessoa);
             _context.SaveChanges();
+            
             return pessoa;
         }
 

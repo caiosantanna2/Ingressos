@@ -12,11 +12,9 @@ namespace Ingressos.Domain.Entities.Cliente
 {
     public class Pessoa
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
+        
         public Guid Id { get; set; }
         public string Nome { get; set; }
-       
      
         public string Email { get; set; }
         public DateTime DataNascimento { get; set; }

@@ -14,7 +14,7 @@ namespace Ingressos.Domain.Entities.Instituicao
         public string Nome { get; set; }
         public string CNPJ { get; set; }
         public Endereco Endereco { get; set; }  
-        public TipoInstituicao TipoEmpresas { get; set; }    
+        public string TipoEmpresas { get; set; }    
 
     }
 }

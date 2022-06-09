@@ -1,7 +1,6 @@
 ﻿
 using Ingressos.Domain.Entities.Cliente;
 
-using Ingressos.Domain.Entities.Enderecos;
 using Ingressos.Domain.Entities.EventoEntites;
 using Ingressos.Domain.Entities.EventoIngresso;
 using Ingressos.Domain.Entities.Instituicao;
